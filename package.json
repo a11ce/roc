@@ -8,10 +8,12 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "format": "prettier --write \"**/*.{ts,tsx,scss,json}\""
+    "format": "prettier --write \"**/*.{ts,tsx,scss,json}\"",
+    "deadcode": "knip; tsc --noEmit --noUnusedLocals --noUnusedParameters"
   },
   "license": "MIT",
   "devDependencies": {
+    "knip": "^5.70.1",
     "prettier": "^3.6.2",
     "sass-embedded": "^1.93.3",
     "solid-devtools": "^0.34.3",

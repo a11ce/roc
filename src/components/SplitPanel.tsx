@@ -1,23 +1,12 @@
 import type { Component, JSX } from "solid-js";
-import { children as resolveChildren } from "solid-js";
 
-interface SplitPanelProps {
+interface SplitPanelP {
   type: "v" | "h";
   percent: number;
-  children: JSX.Element;
+  children: [JSX.Element, JSX.Element];
 }
 
-const SplitPanel: Component<SplitPanelProps> = (props) => {
-  const resolved = resolveChildren(() => props.children);
-  const childArray = () => {
-    const kids = resolved();
-    return Array.isArray(kids) ? kids : [kids];
-  };
-
-  if (childArray().length !== 2) {
-    throw new Error("SplitPanel requires exactly 2 children");
-  }
-
+const SplitPanel: Component<SplitPanelP> = (props) => {
   const type = props.type;
   const firstSize = `calc(${props.percent}% - 1px)`;
   const secondSize = `calc(${100 - props.percent}% - 1px)`;
@@ -25,10 +14,10 @@ const SplitPanel: Component<SplitPanelProps> = (props) => {
   return (
     <div class={`split-panel split-panel-${type}`}>
       <div class="split-panel-child" style={{ "--size": firstSize }}>
-        {childArray()[0]}
+        {props.children[0]}
       </div>
       <div class="split-panel-child" style={{ "--size": secondSize }}>
-        {childArray()[1]}
+        {props.children[1]}
       </div>
     </div>
   );

@@ -31,10 +31,16 @@
   overflow: auto;
   border: 1px solid var(--light);
   margin: 1px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   box-sizing: border-box;
   background-color: var(--dark);
   color: var(--light);
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  gap: 8px;
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
 }
