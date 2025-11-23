@@ -1,0 +1,36 @@
+// Main application styles
+@use "panel";
+
+:root {
+  --dark: #222323;
+  --light: #f0f6f0;
+}
+
+body {
+  margin: 0;
+}
+
+.app-root {
+  height: 100vh;
+  background-color: var(--dark);
+  color: var(--light);
+}
+
+button {
+  padding: 8px 16px;
+  background-color: var(--dark);
+  color: var(--light);
+  border: 1px solid var(--light);
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: var(--light);
+    color: var(--dark);
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+}

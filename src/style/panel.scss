@@ -1,0 +1,40 @@
+.split-panel {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  &-v {
+    flex-direction: column;
+
+    .split-panel-child {
+      width: 100%;
+      height: var(--size);
+      flex: 0 0 var(--size);
+    }
+  }
+
+  &-h {
+    flex-direction: row;
+
+    .split-panel-child {
+      width: var(--size);
+      height: 100%;
+      flex: 0 0 var(--size);
+    }
+  }
+}
+
+.panel {
+  width: calc(100% - 2px);
+  height: calc(100% - 2px);
+  overflow: auto;
+  border: 1px solid var(--light);
+  margin: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  background-color: var(--dark);
+  color: var(--light);
+}

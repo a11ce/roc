@@ -1,0 +1,25 @@
+{
+  "name": "vite-template-solid",
+  "version": "0.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "format": "prettier --write \"**/*.{ts,tsx,scss,json}\""
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "^3.6.2",
+    "sass-embedded": "^1.93.3",
+    "solid-devtools": "^0.34.3",
+    "typescript": "^5.7.2",
+    "vite": "^7.1.4",
+    "vite-plugin-solid": "^2.11.8"
+  },
+  "dependencies": {
+    "solid-js": "^1.9.5"
+  }
+}
