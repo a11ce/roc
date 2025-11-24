@@ -1,27 +1,39 @@
 import { Component } from "solid-js";
 import { type GameCtx } from "../core/game";
-import { type GameObject } from "../core/game";
 
 interface DebugP {
-  gameCtx: GameCtx;
-  fox: GameObject;
+  ctx: GameCtx;
 }
 
 const Debug: Component<DebugP> = (props) => {
-  const onApproach = async () => {
-    await props.fox.onPlayerApproach!(props.gameCtx);
+  const fox = () => props.ctx.room.objects[0];
+
+  const onEnterRange = async () => {
+    await fox().onPlayerEnterInteractRange!(props.ctx);
   };
 
   const onInteract = async () => {
-    await props.fox.onPlayerInteract!(props.gameCtx);
+    await fox().onPlayerInteract!(props.ctx);
+  };
+
+  const onToggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
   };
 
   return (
     <div class="panel" style={{ gap: "8px" }}>
-      <div>Debug</div>
-      <button onClick={onApproach}>Approach Fox</button>
-      <button onClick={onInteract}>Interact with Fox</button>
-      <button onClick={() => props.gameCtx.log.clear()}>Clear Log</button>
+      <button onClick={onEnterRange}>
+        approach {fox().getDisplayName(props.ctx)}
+      </button>
+      <button onClick={onInteract}>
+        interact {fox().getDisplayName(props.ctx)}
+      </button>
+      <button onClick={() => props.ctx.log.clear()}>clear log</button>
+      <button onClick={onToggleFullscreen}>fullscreen</button>
     </div>
   );
 };

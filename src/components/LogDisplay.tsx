@@ -1,22 +1,22 @@
 import { Component, For, Show } from "solid-js";
-import { type LogObserver } from "../core/log";
+import { type GameCtx } from "../core/game";
 
 interface LogDisplayP {
-  log: LogObserver;
+  ctx: GameCtx;
 }
 
 const LogDisplay: Component<LogDisplayP> = (props) => {
   return (
     <div class="panel">
-      <For each={props.log.getMessages()}>
+      <For each={props.ctx.log.getMessages()}>
         {(message) => <div>{message}</div>}
       </For>
 
-      <Show when={props.log.getPendingChoice()}>
+      <Show when={props.ctx.log.getPendingChoice()}>
         <div class="buttons">
-          <For each={props.log.getPendingChoice()!.options}>
+          <For each={props.ctx.log.getPendingChoice()!.options}>
             {(option) => (
-              <button onClick={() => props.log.onButtonClick(option)}>
+              <button onClick={() => props.ctx.log.onButtonClick(option)}>
                 {option}
               </button>
             )}

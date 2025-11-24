@@ -1,9 +1,20 @@
 import { type GameObject, type GameCtx } from "../core/game";
+import { Sprite } from "../core/sprite";
 
 export function createFox(): GameObject {
   let hasBeenPet = false;
 
-  const onPlayerApproach = async (ctx: GameCtx) => {
+  const getAssetPaths = () => ["/assets/fox.png"];
+
+  const getX = () => 400;
+
+  const getDisplayName = () => "fox";
+
+  const getSprite = (_ctx: GameCtx) => {
+    return Sprite.fromFile("/assets/fox.png", 5);
+  };
+
+  const onPlayerEnterInteractRange = async (ctx: GameCtx) => {
     if (hasBeenPet) {
       ctx.log.write("the fox licks ur hand");
     } else {
@@ -22,7 +33,11 @@ export function createFox(): GameObject {
   };
 
   return {
-    onPlayerApproach,
+    getAssetPaths,
+    getX,
+    getDisplayName,
+    getSprite,
+    onPlayerEnterInteractRange,
     onPlayerInteract,
   };
 }

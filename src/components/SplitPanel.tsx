@@ -8,8 +8,8 @@ interface SplitPanelP {
 
 const SplitPanel: Component<SplitPanelP> = (props) => {
   const type = props.type;
-  const firstSize = `calc(${props.percent}% - 1px)`;
-  const secondSize = `calc(${100 - props.percent}% - 1px)`;
+  const firstSize = `${props.percent}%`;
+  const secondSize = `${100 - props.percent}%`;
 
   return (
     <div class={`split-panel split-panel-${type}`}>

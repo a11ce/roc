@@ -1,4 +1,5 @@
 import { createStore } from "solid-js/store";
+import { type InputHandler } from "./input";
 
 interface PendingChoice {
   options: string[];
@@ -9,15 +10,15 @@ export interface Log {
   write(text: string): void;
   showButtons(...options: string[]): Promise<string>;
   clear(): void;
-}
-
-export interface LogObserver {
+  attachInputHandler(input: InputHandler): void;
   getMessages(): string[];
   getPendingChoice(): PendingChoice | null;
   onButtonClick: (choice: string) => void;
 }
 
-export function createLog(): { log: Log; observer: LogObserver } {
+export function createLog(): Log {
+  let inputHandler: InputHandler | null = null;
+
   const [store, setStore] = createStore<{
     messages: string[];
     pendingChoice: PendingChoice | null;
@@ -26,11 +27,16 @@ export function createLog(): { log: Log; observer: LogObserver } {
     pendingChoice: null,
   });
 
+  const attachInputHandler = (input: InputHandler) => {
+    inputHandler = input;
+  };
+
   const write = (text: string) => {
     setStore("messages", (messages) => [...messages, text]);
   };
 
   const showButtons = async (...options: string[]): Promise<string> => {
+    inputHandler?.lock();
     return new Promise((resolve) => {
       setStore("pendingChoice", { options, resolve });
     });
@@ -44,20 +50,17 @@ export function createLog(): { log: Log; observer: LogObserver } {
     if (store.pendingChoice) {
       store.pendingChoice.resolve(choice);
       setStore("pendingChoice", null);
+      inputHandler?.unlock();
     }
   };
 
-  const log: Log = {
+  return {
     write,
     showButtons,
     clear,
-  };
-
-  const observer: LogObserver = {
+    attachInputHandler,
     getMessages: () => store.messages,
     getPendingChoice: () => store.pendingChoice,
     onButtonClick,
   };
-
-  return { log, observer };
 }
