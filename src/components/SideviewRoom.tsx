@@ -15,14 +15,10 @@ const SideviewRoom: Component<SideviewRoomProps> = (props) => {
   onMount(async () => {
     await loadRoomAssets(props.ctx.room);
 
-    const styles = getComputedStyle(document.documentElement);
-    const dark = new Color(styles.getPropertyValue("--dark").trim());
-    const light = new Color(styles.getPropertyValue("--light").trim());
-
     const pixiApp = new Application();
     await pixiApp.init({
       resizeTo: containerRef,
-      backgroundColor: dark,
+      backgroundColor: 0x000000,
       resolution: window.devicePixelRatio * 2,
       autoDensity: true,
     });
@@ -47,6 +43,12 @@ const SideviewRoom: Component<SideviewRoomProps> = (props) => {
     pixiApp.ticker.add(() => {
       processSideviewInput(props.ctx);
 
+      const styles = getComputedStyle(document.documentElement);
+      const dark = new Color(styles.getPropertyValue("--dark").trim());
+      const light = new Color(styles.getPropertyValue("--light").trim());
+
+      pixiApp.renderer.background.color = dark;
+
       const width = pixiApp.screen.width;
       const height = pixiApp.screen.height;
       const groundY = height - 50;
@@ -54,7 +56,7 @@ const SideviewRoom: Component<SideviewRoomProps> = (props) => {
       groundLine.clear();
       groundLine.moveTo(0, groundY);
       groundLine.lineTo(width, groundY);
-      groundLine.stroke({ width: 2, color: 0xffffff });
+      groundLine.stroke({ width: 2, color: light });
 
       for (const obj of allObjects) {
         const container = obj.gfxContainer!;
