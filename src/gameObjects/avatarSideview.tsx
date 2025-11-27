@@ -6,12 +6,12 @@ const INTERACT_RANGE = 50;
 const MOVE_SPEED = 2;
 const OBJECT_RADIUS = 30;
 
-export function createAvatarSideview(initX: number): Avatar {
+export function createAvatarSideview(initX: number): Avatar<GameCtx> {
   let x = initX;
 
   const objectsInRange = new Set<object>();
 
-  const distance = (ctx: GameCtx, obj: GameObject) =>
+  const distance = (ctx: GameCtx, obj: GameObject<GameCtx>) =>
     Math.abs(obj.getX(ctx) - x);
 
   const getX = () => x;
@@ -23,7 +23,7 @@ export function createAvatarSideview(initX: number): Avatar {
   };
 
   const onPlayerMove = async (ctx: GameCtx) => {
-    for (const obj of ctx.room.objects) {
+    for (const obj of ctx.currentRoom.objects) {
       const inInteractRange = distance(ctx, obj) < INTERACT_RANGE;
       const wasInRange = objectsInRange.has(obj);
 
@@ -51,11 +51,11 @@ export function createAvatarSideview(initX: number): Avatar {
   };
 
   const onPlayerInteract = async (ctx: GameCtx) => {
-    const inRange = ctx.room.objects.filter(
+    const inRange = ctx.currentRoom.objects.filter(
       (obj) => distance(ctx, obj) < INTERACT_RANGE,
     );
 
-    const closest = inRange.reduce<GameObject | null>(
+    const closest = inRange.reduce<GameObject<GameCtx> | null>(
       (acc, obj) =>
         !acc || distance(ctx, obj) < distance(ctx, acc) ? obj : acc,
       null,

@@ -6,16 +6,16 @@ import { type Container } from "pixi.js";
 
 export interface GameCtx {
   log: Log;
-  room: Room;
+  currentRoom: Room<GameCtx>;
   input: InputHandler;
 }
 
-export interface GameObject {
+export interface GameObject<TCtx extends GameCtx> {
   getAssetPaths?(): string[];
-  getX(ctx: GameCtx): number;
-  getDisplayName(ctx: GameCtx): string;
-  getSprite(ctx: GameCtx): Sprite;
-  onPlayerEnterInteractRange?(ctx: GameCtx): Promise<void>;
-  onPlayerInteract?(ctx: GameCtx): Promise<void>;
+  getX(ctx: TCtx): number;
+  getDisplayName(ctx: TCtx): string;
+  getSprite?(ctx: TCtx): Sprite;
+  onPlayerEnterInteractRange?(ctx: TCtx): Promise<void>;
+  onPlayerInteract?(ctx: TCtx): Promise<void>;
   gfxContainer?: Container;
 }

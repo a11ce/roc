@@ -6,7 +6,7 @@ interface DebugP {
 }
 
 const Debug: Component<DebugP> = (props) => {
-  const fox = () => props.ctx.room.objects[0];
+  const fox = () => props.ctx.currentRoom.objects[0];
   const [darkColor, setDarkColor] = createSignal("#222323");
   const [lightColor, setLightColor] = createSignal("#f0f6f0");
 
@@ -49,10 +49,12 @@ const Debug: Component<DebugP> = (props) => {
       <button onClick={() => props.ctx.log.clear()}>clear log</button>
       <button onClick={onToggleFullscreen}>fullscreen</button>
       <label>
-        dark <input type="color" value={darkColor()} onInput={onDarkColorChange} />
+        dark{" "}
+        <input type="color" value={darkColor()} onInput={onDarkColorChange} />
       </label>
       <label>
-        light <input type="color" value={lightColor()} onInput={onLightColorChange} />
+        light{" "}
+        <input type="color" value={lightColor()} onInput={onLightColorChange} />
       </label>
     </div>
   );

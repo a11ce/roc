@@ -13,7 +13,7 @@ const SideviewRoom: Component<SideviewRoomProps> = (props) => {
   let containerRef!: HTMLDivElement;
 
   onMount(async () => {
-    await loadRoomAssets(props.ctx.room);
+    await loadRoomAssets(props.ctx.currentRoom);
 
     const pixiApp = new Application();
     await pixiApp.init({
@@ -33,7 +33,10 @@ const SideviewRoom: Component<SideviewRoomProps> = (props) => {
     const groundLine = new Graphics();
     scene.addChild(groundLine);
 
-    const allObjects = [props.ctx.room.avatar, ...props.ctx.room.objects];
+    const allObjects = [
+      props.ctx.currentRoom.avatar,
+      ...props.ctx.currentRoom.objects,
+    ];
 
     for (const obj of allObjects) {
       obj.gfxContainer = new Container();
@@ -59,6 +62,7 @@ const SideviewRoom: Component<SideviewRoomProps> = (props) => {
       groundLine.stroke({ width: 2, color: light });
 
       for (const obj of allObjects) {
+        if (!obj.getSprite) continue;
         const container = obj.gfxContainer!;
         const sprite = obj.getSprite(props.ctx);
         renderSprite(sprite, container, dark, light);

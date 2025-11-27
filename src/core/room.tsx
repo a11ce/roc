@@ -1,13 +1,15 @@
 import { Assets } from "pixi.js";
-import { type GameObject } from "./game";
+import { type GameObject, type GameCtx } from "./game";
 import { type Avatar } from "./avatar";
 
-export interface Room {
-  avatar: Avatar;
-  objects: GameObject[];
+export interface Room<TCtx extends GameCtx> {
+  avatar: Avatar<TCtx>;
+  objects: GameObject<TCtx>[];
 }
 
-export const loadRoomAssets = async (room: Room) => {
+export const loadRoomAssets = async <TCtx extends GameCtx>(
+  room: Room<TCtx>,
+) => {
   if (room.avatar?.getAssetPaths) {
     await Assets.load(room.avatar.getAssetPaths());
   }

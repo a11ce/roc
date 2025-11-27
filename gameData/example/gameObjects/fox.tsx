@@ -1,7 +1,9 @@
-import { type GameObject, type GameCtx } from "../core/game";
-import { Sprite } from "../core/sprite";
+import { type GameObject } from "../../../src/core/game";
+import { type GameCtx } from "../../../src/core/game";
+import { Sprite } from "../../../src/core/sprite";
+import type { ExampleCtx } from "../game";
 
-export function createFox(): GameObject {
+export function createFox(): GameObject<ExampleCtx> {
   let hasBeenPet = false;
 
   const getAssetPaths = () => ["/assets/fox.png"];
@@ -10,11 +12,11 @@ export function createFox(): GameObject {
 
   const getDisplayName = () => "fox";
 
-  const getSprite = (_ctx: GameCtx) => {
+  const getSprite = (_ctx: ExampleCtx) => {
     return Sprite.fromFile("/assets/fox.png", 5);
   };
 
-  const onPlayerEnterInteractRange = async (ctx: GameCtx) => {
+  const onPlayerEnterInteractRange = async (ctx: ExampleCtx) => {
     if (hasBeenPet) {
       ctx.log.write("the fox licks ur hand");
     } else {
@@ -22,11 +24,16 @@ export function createFox(): GameObject {
     }
   };
 
-  const onPlayerInteract = async (ctx: GameCtx) => {
+  const onPlayerInteract = async (ctx: ExampleCtx) => {
     ctx.log.write("try to pet the fox?");
     if ((await ctx.log.showButtons("yes", "no")) === "yes") {
       ctx.log.write("you pet the fox");
-      hasBeenPet = true;
+      if (!hasBeenPet) {
+        ctx.log.write("the fox drops a small key at your feet");
+        ctx.log.write("you pick it up");
+        ctx.playerInventory.add("key");
+        hasBeenPet = true;
+      }
     } else {
       ctx.log.write("you decide not to pet the fox");
     }

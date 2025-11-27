@@ -1,7 +1,7 @@
 import { type GameObject, type GameCtx } from "./game";
 
-export interface Avatar extends GameObject {
-  onPlayerMoveLeft?(ctx: GameCtx): Promise<void>;
-  onPlayerMoveRight?(ctx: GameCtx): Promise<void>;
-  onPlayerInteract?(ctx: GameCtx): Promise<void>;
+export interface Avatar<TCtx extends GameCtx> extends GameObject<TCtx> {
+  onPlayerMoveLeft?(ctx: TCtx): Promise<void>;
+  onPlayerMoveRight?(ctx: TCtx): Promise<void>;
+  onPlayerInteract?(ctx: TCtx): Promise<void>;
 }
