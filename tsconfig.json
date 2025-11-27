@@ -13,6 +13,12 @@
     "moduleResolution": "bundler",
     "noEmit": true,
 
+    // Path Aliases
+    "baseUrl": ".",
+    "paths": {
+      "@roc/*": ["./src/*"]
+    },
+
     // Type Checking & Safety
     "strict": true,
     "noImplicitReturns": true,
@@ -23,6 +29,6 @@
     "lib": ["es2023", "dom"],
     "types": ["vite/client"]
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "gameData/**/*"],
   "exclude": ["node_modules"]
 }

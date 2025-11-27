@@ -1,6 +1,6 @@
-import { type Avatar } from "../core/avatar";
-import { type GameObject, type GameCtx } from "../core/game";
-import { Sprite } from "../core/sprite";
+import { type Avatar } from "@roc/core/avatar";
+import { type GameObject, type GameCtx } from "@roc/core/game";
+import { Sprite } from "@roc/core/sprite";
 
 const INTERACT_RANGE = 50;
 const MOVE_SPEED = 2;

@@ -1,5 +1,5 @@
 import { Component, createSignal } from "solid-js";
-import { type GameCtx } from "../core/game";
+import { type GameCtx } from "@roc/core/game";
 
 interface DebugP {
   ctx: GameCtx;

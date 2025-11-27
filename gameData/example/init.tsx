@@ -1,7 +1,7 @@
-import { createLog } from "../../src/core/log";
-import { createInputHandler } from "../../src/core/input";
-import { createAvatarSideview } from "../../src/gameObjects/avatarSideview";
-import { createLatchText } from "../../src/gameObjects/latchText";
+import { createLog } from "@roc/core/log";
+import { createInputHandler } from "@roc/core/input";
+import { createAvatarSideview } from "@roc/gameObjects/avatarSideview";
+import { createLatchText } from "@roc/gameObjects/latchText";
 import { createFox } from "./gameObjects/fox";
 import { createInventory } from "./inventory";
 import type { ExampleCtx } from "./game";

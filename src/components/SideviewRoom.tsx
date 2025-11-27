@@ -1,9 +1,9 @@
 import { Component, onMount } from "solid-js";
 import { Application, Container, Graphics, Color } from "pixi.js";
-import { type GameCtx } from "../core/game";
-import { loadRoomAssets } from "../core/room";
-import { renderSprite } from "../core/sprite";
-import { processSideviewInput } from "../core/inputSideview";
+import { type GameCtx } from "@roc/core/game";
+import { loadRoomAssets } from "@roc/core/room";
+import { renderSprite } from "@roc/core/sprite";
+import { processSideviewInput } from "@roc/core/inputSideview";
 
 interface SideviewRoomProps {
   ctx: GameCtx;

@@ -5,7 +5,7 @@ import {
   Color,
   Sprite as PixiSprite,
 } from "pixi.js";
-import { unreachable } from "../util/common";
+import { unreachable } from "@roc/util/common";
 
 export type Sprite =
   | { type: "fromFile"; path: string; scale?: number }

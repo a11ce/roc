@@ -1,6 +1,6 @@
-import { type GameObject } from "../../../src/core/game";
-import { type GameCtx } from "../../../src/core/game";
-import { Sprite } from "../../../src/core/sprite";
+import { type GameObject } from "@roc/core/game";
+import { type GameCtx } from "@roc/core/game";
+import { Sprite } from "@roc/core/sprite";
 import type { ExampleCtx } from "../game";
 
 export function createFox(): GameObject<ExampleCtx> {

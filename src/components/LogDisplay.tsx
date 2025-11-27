@@ -1,5 +1,5 @@
 import { Component, For, Show } from "solid-js";
-import { type GameCtx } from "../core/game";
+import { type GameCtx } from "@roc/core/game";
 
 interface LogDisplayP {
   ctx: GameCtx;
