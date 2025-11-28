@@ -11,11 +11,11 @@ const Debug: Component<DebugP> = (props) => {
   const [lightColor, setLightColor] = createSignal("#f0f6f0");
 
   const onEnterRange = async () => {
-    await fox().onPlayerEnterInteractRange!(props.ctx);
+    await fox().onEnterInteractRange!(props.ctx);
   };
 
   const onInteract = async () => {
-    await fox().onPlayerInteract!(props.ctx);
+    await fox().onInteract!(props.ctx);
   };
 
   const onToggleFullscreen = () => {

@@ -1,27 +1,21 @@
 import { createLog } from "@roc/core/log";
 import { createInputHandler } from "@roc/core/input";
-import { createAvatarSideview } from "@roc/gameObjects/avatarSideview";
-import { createLatchText } from "@roc/gameObjects/latchText";
-import { createFox } from "./gameObjects/fox";
+import { createGoToRoom } from "@roc/core/room";
 import { createInventory } from "./inventory";
+import { forest } from "./rooms/forest";
 import type { ExampleCtx } from "./game";
 
 export function initializeExample(): ExampleCtx {
   const log = createLog();
   const input = createInputHandler();
-  const avatar = createAvatarSideview(100);
-  const fox = createFox();
-  const welcomeText = createLatchText(200, "you are in Foxkey Forest");
 
-  const ctx: ExampleCtx = {
-    log,
-    input,
-    playerInventory: createInventory(),
-    currentRoom: {
-      avatar,
-      objects: [welcomeText, fox],
-    },
-  };
+  const ctx = {} as ExampleCtx;
+
+  ctx.log = log;
+  ctx.input = input;
+  ctx.playerInventory = createInventory();
+  ctx.goToRoom = createGoToRoom(ctx);
+  ctx.goToRoom(forest);
 
   log.attachInputHandler(input);
   return ctx;

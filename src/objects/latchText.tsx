@@ -7,12 +7,12 @@ export function createLatchText(x: number, text: string): GameObject<GameCtx> {
 
   const getDisplayName = () => "Latch text";
 
-  const onPlayerEnterInteractRange = async (ctx: GameCtx) => {
+  const onEnterInteractRange = async (ctx: GameCtx) => {
     if (!latch) {
       ctx.log.write(text);
       latch = true;
     }
   };
 
-  return { getX, getDisplayName, onPlayerEnterInteractRange };
+  return { getX, getDisplayName, onEnterInteractRange };
 }

@@ -31,8 +31,8 @@ export function createAvatarSideview(initX: number): Avatar<GameCtx> {
 
       if (inInteractRange) {
         objectsInRange.add(obj);
-        if (obj.onPlayerEnterInteractRange) {
-          await obj.onPlayerEnterInteractRange(ctx);
+        if (obj.onEnterInteractRange) {
+          await obj.onEnterInteractRange(ctx);
         }
       } else {
         objectsInRange.delete(obj);
@@ -61,8 +61,8 @@ export function createAvatarSideview(initX: number): Avatar<GameCtx> {
       null,
     );
 
-    if (closest?.onPlayerInteract) {
-      await closest.onPlayerInteract(ctx);
+    if (closest?.onInteract) {
+      await closest.onInteract(ctx);
     }
   };
 

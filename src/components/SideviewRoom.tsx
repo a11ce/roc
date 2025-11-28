@@ -33,16 +33,6 @@ const SideviewRoom: Component<SideviewRoomProps> = (props) => {
     const groundLine = new Graphics();
     scene.addChild(groundLine);
 
-    const allObjects = [
-      props.ctx.currentRoom.avatar,
-      ...props.ctx.currentRoom.objects,
-    ];
-
-    for (const obj of allObjects) {
-      obj.gfxContainer = new Container();
-      scene.addChild(obj.gfxContainer);
-    }
-
     pixiApp.ticker.add(() => {
       processSideviewInput(props.ctx);
 
@@ -61,15 +51,24 @@ const SideviewRoom: Component<SideviewRoomProps> = (props) => {
       groundLine.lineTo(width, groundY);
       groundLine.stroke({ width: 2, color: light });
 
+      // remove containers except groundLine
+      scene.children.slice(1).forEach((child) => scene.removeChild(child));
+
+      const allObjects = [
+        props.ctx.currentRoom.avatar,
+        ...props.ctx.currentRoom.objects,
+      ];
+
       for (const obj of allObjects) {
         if (!obj.getSprite) continue;
-        const container = obj.gfxContainer!;
+        const container = new Container();
         const sprite = obj.getSprite(props.ctx);
         renderSprite(sprite, container, dark, light);
         const objY =
           sprite.type === "circle" ? groundY - sprite.radius : groundY;
         container.x = obj.getX(props.ctx);
         container.y = objY;
+        scene.addChild(container);
       }
     });
 
