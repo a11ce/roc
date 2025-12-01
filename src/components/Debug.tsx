@@ -1,19 +1,11 @@
-import { Component, createSignal } from "solid-js";
+import { Component, createSignal, For } from "solid-js";
 import { getGameCtx } from "@roc/core/game";
 
 const Debug: Component = () => {
   const ctx = getGameCtx();
-  const fox = () => ctx.room.get().objects[0];
+  const objects = () => ctx.room.get().objects;
   const [darkColor, setDarkColor] = createSignal("#222323");
   const [lightColor, setLightColor] = createSignal("#f0f6f0");
-
-  const onEnterRange = async () => {
-    await fox().onEnterInteractRange!(ctx);
-  };
-
-  const onInteract = async () => {
-    await fox().onInteract!(ctx);
-  };
 
   const onToggleFullscreen = () => {
     if (!document.fullscreenElement) {
@@ -37,10 +29,21 @@ const Debug: Component = () => {
 
   return (
     <div class="panel" style={{ gap: "8px" }}>
-      <button onClick={onEnterRange}>
-        approach {fox().getDisplayName(ctx)}
-      </button>
-      <button onClick={onInteract}>interact {fox().getDisplayName(ctx)}</button>
+      <For each={objects()}>
+        {(obj) => (
+          <div style={{ display: "flex", gap: "4px" }}>
+            <span>{obj.getDisplayName(ctx)}</span>
+            {obj.onEnterInteractRange && (
+              <button onClick={() => obj.onEnterInteractRange!(ctx)}>
+                approach
+              </button>
+            )}
+            {obj.onInteract && (
+              <button onClick={() => obj.onInteract!(ctx)}>interact</button>
+            )}
+          </div>
+        )}
+      </For>
       <button onClick={() => ctx.log.clear()}>clear log</button>
       <button onClick={onToggleFullscreen}>fullscreen</button>
       <label>

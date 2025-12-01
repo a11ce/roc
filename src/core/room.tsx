@@ -1,4 +1,5 @@
 import { Assets } from "pixi.js";
+import { createSignal } from "solid-js";
 import { type GameObject } from "./gameObject";
 import { type GameCtx } from "./game";
 import { type AvatarPosition } from "./avatar";
@@ -21,17 +22,19 @@ export interface RoomController<TCtx extends GameCtx> {
 export const createRoomController = <TCtx extends GameCtx>(
   ctx: TCtx,
 ): RoomController<TCtx> => {
-  let currentRoom: RoomData<TCtx>;
+  const [currentRoom, setCurrentRoom] = createSignal<RoomData<TCtx>>(
+    undefined!,
+  );
 
-  const get = () => currentRoom;
+  const get = () => currentRoom();
 
   const goTo = (room: Room<TCtx>) => {
-    currentRoom = room();
+    setCurrentRoom(room());
     ctx.avatar.get().onEnterRoom?.(ctx);
-    for (const obj of currentRoom.objects) {
+    for (const obj of currentRoom().objects) {
       obj.onEnterRoom?.(ctx);
     }
-    currentRoom.onEnter?.(ctx);
+    currentRoom().onEnter?.(ctx);
   };
 
   return { get, goTo };
