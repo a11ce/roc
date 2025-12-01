@@ -6,13 +6,20 @@ import { Sprite } from "@roc/core/sprite";
 const INTERACT_RANGE = 50;
 const MOVE_SPEED = 2;
 
-export function createAvatarSideview(): Avatar<GameCtx> {
+export function createAvatarTopview(): Avatar<GameCtx> {
   const objectsInRange = new Set<object>();
 
-  const distance = (ctx: GameCtx, obj: GameObject<GameCtx>) =>
-    Math.abs(obj.getX(ctx) - ctx.room.get().avatarPosition.x);
+  const distance = (ctx: GameCtx, obj: GameObject<GameCtx>) => {
+    const dx = obj.getX(ctx) - ctx.room.get().avatarPosition.x;
+    const dy =
+      (obj.getY ? obj.getY(ctx) : ctx.room.get().avatarPosition.y) -
+      ctx.room.get().avatarPosition.y;
+    return Math.sqrt(dx * dx + dy * dy);
+  };
 
   const getX = (ctx: GameCtx) => ctx.room.get().avatarPosition.x;
+
+  const getY = (ctx: GameCtx) => ctx.room.get().avatarPosition.y;
 
   const getDisplayName = () => "@";
 
@@ -49,6 +56,14 @@ export function createAvatarSideview(): Avatar<GameCtx> {
       newPosition.x += MOVE_SPEED;
       onPlayerMove(ctx);
     }
+    if (ctx.input.isKeyPressed("w")) {
+      newPosition.y -= MOVE_SPEED;
+      onPlayerMove(ctx);
+    }
+    if (ctx.input.isKeyPressed("s")) {
+      newPosition.y += MOVE_SPEED;
+      onPlayerMove(ctx);
+    }
     if (ctx.input.consumeKeyPress(" ")) {
       const inRange = ctx.room
         .get()
@@ -74,6 +89,7 @@ export function createAvatarSideview(): Avatar<GameCtx> {
 
   return {
     getX,
+    getY,
     getDisplayName,
     getSprite,
     processInput,

@@ -1,4 +1,4 @@
-import { type GameObject } from "@roc/core/game";
+import { type GameObject } from "@roc/core/gameObject";
 import { Sprite } from "@roc/core/sprite";
 import type { Room } from "@roc/core/room";
 import type { ExampleCtx } from "../game";
@@ -8,8 +8,11 @@ export function createDoor(
   name: string,
   destination: Room<ExampleCtx>,
   confirmEnter: (ctx: ExampleCtx) => Promise<boolean>,
+  y?: number,
 ): GameObject<ExampleCtx> {
   const getX = () => x;
+
+  const getY = y !== undefined ? () => y : undefined;
 
   const getDisplayName = () => name;
 
@@ -19,12 +22,13 @@ export function createDoor(
 
   const onInteract = async (ctx: ExampleCtx) => {
     if (await confirmEnter(ctx)) {
-      ctx.goToRoom(destination);
+      ctx.room.goTo(destination);
     }
   };
 
   return {
     getX,
+    getY,
     getDisplayName,
     getSprite,
     onInteract,

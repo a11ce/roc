@@ -1,14 +1,14 @@
-import { createAvatarSideview } from "@roc/objects/avatarSideview";
 import { createFox } from "../objects/fox";
 import { createDoor } from "../objects/door";
 import { createLatchText } from "@roc/objects/latchText";
 import { createStaticRoom } from "@roc/core/room";
+import { avatarSideview, foxAvatarSideview } from "../avatars";
+import { sideview, sideviewBeforeInventory } from "../layouts";
 import { castle } from "./castle";
 import { cave } from "./cave";
 import type { ExampleCtx } from "../game";
 
 export const forest = createStaticRoom<ExampleCtx>(() => {
-  const avatar = createAvatarSideview(100);
   const sign = createLatchText(300, "You see a sign saying BEWARE OF FOX");
   const fox = createFox(500);
 
@@ -28,11 +28,14 @@ export const forest = createStaticRoom<ExampleCtx>(() => {
   });
 
   const onEnter = (ctx: ExampleCtx) => {
+    ctx.avatar.set(ctx.isFox ? foxAvatarSideview : avatarSideview);
+    const hasInventory = ctx.playerInventory.getItems().length > 0;
+    ctx.layout.set(hasInventory ? sideview : sideviewBeforeInventory);
     ctx.log.write("you are in Foxkey Forest");
   };
 
   return {
-    avatar,
+    avatarPosition: { x: 100, y: 0 },
     objects: [sign, caveDoor, fox, castleDoor],
     onEnter,
   };

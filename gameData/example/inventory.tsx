@@ -1,8 +1,4 @@
-import { vSplit, hSplit } from "@roc/core/layout";
-import SideviewRoom from "@roc/components/SideviewRoom";
-import Debug from "@roc/components/Debug";
-import LogDisplay from "@roc/components/LogDisplay";
-import InventoryDisplay from "./components/InventoryDisplay";
+import { sideview } from "./layouts";
 import type { ExampleCtx } from "./game";
 
 export interface Inventory {
@@ -20,13 +16,7 @@ export function createInventory(ctx: ExampleCtx): Inventory {
 
     if (!inventoryShown) {
       inventoryShown = true;
-      ctx.layout.set(
-        vSplit(
-          25,
-          SideviewRoom,
-          hSplit(25, vSplit(50, Debug, InventoryDisplay), LogDisplay),
-        ),
-      );
+      ctx.layout.set(sideview);
     }
   };
 

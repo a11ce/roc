@@ -3,7 +3,7 @@ import { getGameCtx } from "@roc/core/game";
 
 const Debug: Component = () => {
   const ctx = getGameCtx();
-  const fox = () => ctx.currentRoom.objects[0];
+  const fox = () => ctx.room.get().objects[0];
   const [darkColor, setDarkColor] = createSignal("#222323");
   const [lightColor, setLightColor] = createSignal("#f0f6f0");
 

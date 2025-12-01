@@ -4,7 +4,7 @@ import { getGameCtx } from "@roc/core/game";
 import { loadRoomAssets } from "@roc/core/room";
 import { renderSprite } from "@roc/core/sprite";
 
-const SideviewRoom: Component = () => {
+const TopviewRoom: Component = () => {
   const ctx = getGameCtx();
   let containerRef!: HTMLDivElement;
 
@@ -26,9 +26,6 @@ const SideviewRoom: Component = () => {
     const scene = new Container();
     pixiApp.stage.addChild(scene);
 
-    const groundLine = new Graphics();
-    scene.addChild(groundLine);
-
     pixiApp.ticker.add(() => {
       const styles = getComputedStyle(document.documentElement);
       const dark = new Color(styles.getPropertyValue("--dark").trim());
@@ -36,17 +33,7 @@ const SideviewRoom: Component = () => {
 
       pixiApp.renderer.background.color = dark;
 
-      const width = pixiApp.screen.width;
-      const height = pixiApp.screen.height;
-      const groundY = height - 50;
-
-      groundLine.clear();
-      groundLine.moveTo(0, groundY);
-      groundLine.lineTo(width, groundY);
-      groundLine.stroke({ width: 2, color: light });
-
-      // remove containers except groundLine
-      scene.children.slice(1).forEach((child) => scene.removeChild(child));
+      scene.removeChildren();
 
       const allObjects = [ctx.avatar.get(), ...ctx.room.get().objects];
 
@@ -55,10 +42,8 @@ const SideviewRoom: Component = () => {
         const container = new Container();
         const sprite = obj.getSprite(ctx);
         renderSprite(sprite, container, dark, light);
-        const objY =
-          sprite.type === "circle" ? groundY - sprite.radius : groundY;
         container.x = obj.getX(ctx);
-        container.y = objY;
+        container.y = obj.getY ? obj.getY(ctx) : pixiApp.screen.height / 2;
         scene.addChild(container);
       }
     });
@@ -77,4 +62,4 @@ const SideviewRoom: Component = () => {
   );
 };
 
-export default SideviewRoom;
+export default TopviewRoom;

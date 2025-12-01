@@ -1,25 +1,16 @@
 import { createContext, useContext, type JSX } from "solid-js";
 import { type Log } from "./log";
-import { type Room, type RoomData } from "./room";
+import { type RoomController } from "./room";
 import { type InputHandler } from "./input";
-import { type Sprite } from "./sprite";
-import { type Layout } from "./layout";
+import { type LayoutController } from "./layout";
+import { type AvatarController } from "./avatar";
 
 export interface GameCtx {
   log: Log;
-  currentRoom: RoomData<GameCtx>;
+  room: RoomController<GameCtx>;
+  avatar: AvatarController;
   input: InputHandler;
-  goToRoom: (room: Room<GameCtx>) => void;
-  layout: Layout;
-}
-
-export interface GameObject<TCtx extends GameCtx> {
-  getAssetPaths?(): string[];
-  getX(ctx: TCtx): number;
-  getDisplayName(ctx: TCtx): string;
-  getSprite?(ctx: TCtx): Sprite;
-  onEnterInteractRange?(ctx: TCtx): Promise<void>;
-  onInteract?(ctx: TCtx): Promise<void>;
+  layout: LayoutController;
 }
 
 const GameCtxContext = createContext<GameCtx>();

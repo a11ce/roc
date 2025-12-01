@@ -1,4 +1,4 @@
-import { type GameObject } from "@roc/core/game";
+import { type GameObject } from "@roc/core/gameObject";
 import { Sprite } from "@roc/core/sprite";
 import type { ExampleCtx } from "../game";
 

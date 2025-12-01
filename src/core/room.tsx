@@ -1,9 +1,10 @@
 import { Assets } from "pixi.js";
-import { type GameObject, type GameCtx } from "./game";
-import { type Avatar } from "./avatar";
+import { type GameObject } from "./gameObject";
+import { type GameCtx } from "./game";
+import { type AvatarPosition } from "./avatar";
 
 export interface RoomData<TCtx extends GameCtx> {
-  avatar: Avatar<TCtx>;
+  avatarPosition: AvatarPosition;
   objects: GameObject<TCtx>[];
   onEnter?(ctx: TCtx): void;
 }
@@ -12,26 +13,41 @@ export type Room<TCtx extends GameCtx> = (() => RoomData<TCtx>) & {
   __sigil: "StaticOrResetRoom";
 };
 
-export const loadRoomAssets = async <TCtx extends GameCtx>(
-  room: RoomData<TCtx>,
-) => {
-  if (room.avatar?.getAssetPaths) {
-    await Assets.load(room.avatar.getAssetPaths());
+export interface RoomController<TCtx extends GameCtx> {
+  get: () => RoomData<TCtx>;
+  goTo: (room: Room<TCtx>) => void;
+}
+
+export const createRoomController = <TCtx extends GameCtx>(
+  ctx: TCtx,
+): RoomController<TCtx> => {
+  let currentRoom: RoomData<TCtx>;
+
+  const get = () => currentRoom;
+
+  const goTo = (room: Room<TCtx>) => {
+    currentRoom = room();
+    ctx.avatar.get().onEnterRoom?.(ctx);
+    for (const obj of currentRoom.objects) {
+      obj.onEnterRoom?.(ctx);
+    }
+    currentRoom.onEnter?.(ctx);
+  };
+
+  return { get, goTo };
+};
+
+export const loadRoomAssets = async <TCtx extends GameCtx>(ctx: TCtx) => {
+  const avatar = ctx.avatar.get();
+  if (avatar?.getAssetPaths) {
+    await Assets.load(avatar.getAssetPaths());
   }
 
-  for (const obj of room.objects) {
+  for (const obj of ctx.room.get().objects) {
     if (obj.getAssetPaths) {
       await Assets.load(obj.getAssetPaths());
     }
   }
-};
-
-export const createGoToRoom = <TCtx extends GameCtx>(ctx: TCtx) => {
-  return (room: Room<TCtx>) => {
-    const roomData = room();
-    ctx.currentRoom = roomData;
-    roomData.onEnter?.(ctx);
-  };
 };
 
 export const createStaticRoom = <TCtx extends GameCtx>(

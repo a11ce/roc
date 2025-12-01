@@ -1,4 +1,5 @@
-import { type GameObject, type GameCtx } from "@roc/core/game";
+import { type GameObject } from "@roc/core/gameObject";
+import { type GameCtx } from "@roc/core/game";
 
 export function createLatchText(x: number, text: string): GameObject<GameCtx> {
   let latch = false;

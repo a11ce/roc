@@ -1,18 +1,19 @@
 import { createLog } from "@roc/core/log";
 import { createInputHandler } from "@roc/core/input";
-import { createGoToRoom } from "@roc/core/room";
-import { createLayout, vSplit, hSplit } from "@roc/core/layout";
+import { createRoomController } from "@roc/core/room";
+import { createLayoutController } from "@roc/core/layout";
+import { createAvatarController } from "@roc/core/avatar";
 import { createInventory } from "./inventory";
+import { avatarSideview } from "./avatars";
 import { forest } from "./rooms/forest";
+import { sideviewBeforeInventory } from "./layouts";
 import type { ExampleCtx } from "./game";
-import SideviewRoom from "@roc/components/SideviewRoom";
-import Debug from "@roc/components/Debug";
-import LogDisplay from "@roc/components/LogDisplay";
 
 export function initializeExample(): ExampleCtx {
   const log = createLog();
   const input = createInputHandler();
-  const layout = createLayout();
+  const layout = createLayoutController();
+  const avatar = createAvatarController(avatarSideview);
   log.attachInputHandler(input);
 
   const ctx = {} as ExampleCtx;
@@ -20,12 +21,14 @@ export function initializeExample(): ExampleCtx {
   ctx.log = log;
   ctx.input = input;
   ctx.layout = layout;
-  ctx.goToRoom = createGoToRoom(ctx);
+  ctx.avatar = avatar;
+  ctx.room = createRoomController(ctx);
   ctx.playerInventory = createInventory(ctx);
+  ctx.isFox = false;
 
-  ctx.layout.set(vSplit(25, SideviewRoom, hSplit(25, Debug, LogDisplay)));
+  ctx.layout.set(sideviewBeforeInventory);
 
-  ctx.goToRoom(forest);
+  ctx.room.goTo(forest);
 
   return ctx;
 }
