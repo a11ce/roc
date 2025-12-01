@@ -1,21 +1,18 @@
 import { Component, createSignal } from "solid-js";
-import { type GameCtx } from "@roc/core/game";
+import { getGameCtx } from "@roc/core/game";
 
-interface DebugP {
-  ctx: GameCtx;
-}
-
-const Debug: Component<DebugP> = (props) => {
-  const fox = () => props.ctx.currentRoom.objects[0];
+const Debug: Component = () => {
+  const ctx = getGameCtx();
+  const fox = () => ctx.currentRoom.objects[0];
   const [darkColor, setDarkColor] = createSignal("#222323");
   const [lightColor, setLightColor] = createSignal("#f0f6f0");
 
   const onEnterRange = async () => {
-    await fox().onEnterInteractRange!(props.ctx);
+    await fox().onEnterInteractRange!(ctx);
   };
 
   const onInteract = async () => {
-    await fox().onInteract!(props.ctx);
+    await fox().onInteract!(ctx);
   };
 
   const onToggleFullscreen = () => {
@@ -41,12 +38,10 @@ const Debug: Component<DebugP> = (props) => {
   return (
     <div class="panel" style={{ gap: "8px" }}>
       <button onClick={onEnterRange}>
-        approach {fox().getDisplayName(props.ctx)}
+        approach {fox().getDisplayName(ctx)}
       </button>
-      <button onClick={onInteract}>
-        interact {fox().getDisplayName(props.ctx)}
-      </button>
-      <button onClick={() => props.ctx.log.clear()}>clear log</button>
+      <button onClick={onInteract}>interact {fox().getDisplayName(ctx)}</button>
+      <button onClick={() => ctx.log.clear()}>clear log</button>
       <button onClick={onToggleFullscreen}>fullscreen</button>
       <label>
         dark{" "}

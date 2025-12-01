@@ -1,22 +1,20 @@
 import { Component, For, Show } from "solid-js";
-import { type GameCtx } from "@roc/core/game";
+import { getGameCtx } from "@roc/core/game";
 
-interface LogDisplayP {
-  ctx: GameCtx;
-}
+const LogDisplay: Component = () => {
+  const ctx = getGameCtx();
 
-const LogDisplay: Component<LogDisplayP> = (props) => {
   return (
     <div class="panel">
-      <For each={props.ctx.log.getMessages()}>
+      <For each={ctx.log.getMessages()}>
         {(message) => <div>{message}</div>}
       </For>
 
-      <Show when={props.ctx.log.getPendingChoice()}>
+      <Show when={ctx.log.getPendingChoice()}>
         <div class="buttons">
-          <For each={props.ctx.log.getPendingChoice()!.options}>
+          <For each={ctx.log.getPendingChoice()!.options}>
             {(option) => (
-              <button onClick={() => props.ctx.log.onButtonClick(option)}>
+              <button onClick={() => ctx.log.onButtonClick(option)}>
                 {option}
               </button>
             )}

@@ -1,19 +1,16 @@
 import { Component, onMount } from "solid-js";
 import { Application, Container, Graphics, Color } from "pixi.js";
-import { type GameCtx } from "@roc/core/game";
+import { getGameCtx } from "@roc/core/game";
 import { loadRoomAssets } from "@roc/core/room";
 import { renderSprite } from "@roc/core/sprite";
 import { processSideviewInput } from "@roc/core/inputSideview";
 
-interface SideviewRoomProps {
-  ctx: GameCtx;
-}
-
-const SideviewRoom: Component<SideviewRoomProps> = (props) => {
+const SideviewRoom: Component = () => {
+  const ctx = getGameCtx();
   let containerRef!: HTMLDivElement;
 
   onMount(async () => {
-    await loadRoomAssets(props.ctx.currentRoom);
+    await loadRoomAssets(ctx.currentRoom);
 
     const pixiApp = new Application();
     await pixiApp.init({
@@ -34,7 +31,7 @@ const SideviewRoom: Component<SideviewRoomProps> = (props) => {
     scene.addChild(groundLine);
 
     pixiApp.ticker.add(() => {
-      processSideviewInput(props.ctx);
+      processSideviewInput(ctx);
 
       const styles = getComputedStyle(document.documentElement);
       const dark = new Color(styles.getPropertyValue("--dark").trim());
@@ -54,19 +51,16 @@ const SideviewRoom: Component<SideviewRoomProps> = (props) => {
       // remove containers except groundLine
       scene.children.slice(1).forEach((child) => scene.removeChild(child));
 
-      const allObjects = [
-        props.ctx.currentRoom.avatar,
-        ...props.ctx.currentRoom.objects,
-      ];
+      const allObjects = [ctx.currentRoom.avatar, ...ctx.currentRoom.objects];
 
       for (const obj of allObjects) {
         if (!obj.getSprite) continue;
         const container = new Container();
-        const sprite = obj.getSprite(props.ctx);
+        const sprite = obj.getSprite(ctx);
         renderSprite(sprite, container, dark, light);
         const objY =
           sprite.type === "circle" ? groundY - sprite.radius : groundY;
-        container.x = obj.getX(props.ctx);
+        container.x = obj.getX(ctx);
         container.y = objY;
         scene.addChild(container);
       }

@@ -7,7 +7,7 @@
   &-v {
     flex-direction: column;
 
-    .split-panel-child {
+    > .split-panel-child {
       width: 100%;
       height: var(--size);
       flex: 0 0 var(--size);
@@ -17,7 +17,7 @@
   &-h {
     flex-direction: row;
 
-    .split-panel-child {
+    > .split-panel-child {
       width: var(--size);
       height: 100%;
       flex: 0 0 var(--size);

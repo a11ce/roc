@@ -30,8 +30,8 @@ export function createFox(x: number): GameObject<ExampleCtx> {
       if (!hasBeenPet) {
         ctx.log.write("the fox drops a small key at your feet");
         ctx.log.write("you pick it up");
-        ctx.playerInventory.add("key");
         hasBeenPet = true;
+        ctx.playerInventory.add("key");
       }
     } else {
       ctx.log.write("you decide not to pet the fox");
