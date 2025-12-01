@@ -32,7 +32,7 @@ const Debug: Component = () => {
       <For each={objects()}>
         {(obj) => (
           <div style={{ display: "flex", gap: "4px" }}>
-            <span>{obj.getDisplayName(ctx)}</span>
+            <span>{obj.getDisplayName ? obj.getDisplayName(ctx) : "???"}</span>
             {obj.onEnterInteractRange && (
               <button onClick={() => obj.onEnterInteractRange!(ctx)}>
                 approach

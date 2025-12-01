@@ -15,8 +15,8 @@ export type Room<TCtx extends GameCtx> = (() => RoomData<TCtx>) & {
 };
 
 export interface RoomController<TCtx extends GameCtx> {
-  get: () => RoomData<TCtx>;
-  goTo: (room: Room<TCtx>) => void;
+  get(): RoomData<TCtx>;
+  goTo(room: Room<TCtx>): void;
 }
 
 export const createRoomController = <TCtx extends GameCtx>(

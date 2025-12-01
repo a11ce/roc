@@ -11,8 +11,8 @@ export interface Avatar<TCtx extends GameCtx> extends GameObject<TCtx> {
 }
 
 export interface AvatarController {
-  set: (avatar: Avatar<GameCtx>) => void;
-  get: () => Avatar<GameCtx>;
+  set(avatar: Avatar<GameCtx>): void;
+  get(): Avatar<GameCtx>;
 }
 
 export const createAvatarController = (

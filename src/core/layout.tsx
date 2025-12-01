@@ -4,8 +4,8 @@ import SplitPanel from "@roc/components/SplitPanel";
 type LayoutSpec = (props: {}) => JSX.Element;
 
 export interface LayoutController {
-  set: (layout: LayoutSpec) => void;
-  get: () => JSX.Element;
+  set(layout: LayoutSpec): void;
+  get(): JSX.Element;
 }
 
 export const createLayoutController = (): LayoutController => {

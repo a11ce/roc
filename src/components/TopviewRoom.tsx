@@ -38,7 +38,7 @@ const TopviewRoom: Component = () => {
       const allObjects = [ctx.avatar.get(), ...ctx.room.get().objects];
 
       for (const obj of allObjects) {
-        if (!obj.getSprite) continue;
+        if (!obj.getSprite || !obj.getX) continue;
         const container = new Container();
         const sprite = obj.getSprite(ctx);
         renderSprite(sprite, container, dark, light);

@@ -10,6 +10,7 @@ export function createAvatarTopview(): Avatar<GameCtx> {
   const objectsInRange = new Set<object>();
 
   const distance = (ctx: GameCtx, obj: GameObject<GameCtx>) => {
+    if (!obj.getX) return Infinity;
     const dx = obj.getX(ctx) - ctx.room.get().avatarPosition.x;
     const dy =
       (obj.getY ? obj.getY(ctx) : ctx.room.get().avatarPosition.y) -

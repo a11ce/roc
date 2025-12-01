@@ -13,7 +13,7 @@ export interface Log {
   attachInputHandler(input: InputHandler): void;
   getMessages(): string[];
   getPendingChoice(): PendingChoice | null;
-  onButtonClick: (choice: string) => void;
+  onButtonClick(choice: string): void;
 }
 
 export function createLog(): Log {

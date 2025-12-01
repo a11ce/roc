@@ -10,7 +10,9 @@ export function createAvatarSideview(): Avatar<GameCtx> {
   const objectsInRange = new Set<object>();
 
   const distance = (ctx: GameCtx, obj: GameObject<GameCtx>) =>
-    Math.abs(obj.getX(ctx) - ctx.room.get().avatarPosition.x);
+    obj.getX
+      ? Math.abs(obj.getX(ctx) - ctx.room.get().avatarPosition.x)
+      : Infinity;
 
   const getX = (ctx: GameCtx) => ctx.room.get().avatarPosition.x;
 
