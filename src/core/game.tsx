@@ -7,7 +7,7 @@ import { type AvatarController } from "./avatar";
 
 export interface GameCtx {
   log: Log;
-  room: RoomController<GameCtx>;
+  room: RoomController<this>;
   avatar: AvatarController;
   input: InputHandler;
   layout: LayoutController;

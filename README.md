@@ -17,7 +17,7 @@ Your initialize function must return a `GameCtx` or your own game's ctx object t
 
 ### Rooms
 
-Rooms are defined using `createStaticRoom` or `createResetRoom` with a function that returns a room data object. A static room persists its state, including objects and avatar position, when the player leaves and re-enters. A reset room does not. Room data objects have the following fields:
+Rooms are defined using `createStaticRoom` or `createResetRoom` with a function that takes a ctx object and returns a room data object. The function is called with the ctx when the room is first entered (or each time for reset rooms). A static room persists its state, including objects and avatar position, when the player leaves and re-enters. A reset room does not. Room data objects have the following fields:
 
 - `avatarPosition: { x: number, y: number }`. The initial position of the avatar when entering the room for the first time (or every time, if the room is a reset room.)
 - `objects: GameObject[]`. The objects present in the room.

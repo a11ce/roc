@@ -10,7 +10,7 @@ export interface RoomData<TCtx extends GameCtx> {
   onEnter?(ctx: TCtx): void;
 }
 
-export type Room<TCtx extends GameCtx> = (() => RoomData<TCtx>) & {
+export type Room<TCtx extends GameCtx> = ((ctx: TCtx) => RoomData<TCtx>) & {
   __sigil: "StaticOrResetRoom";
 };
 
@@ -29,7 +29,7 @@ export const createRoomController = <TCtx extends GameCtx>(
   const get = () => currentRoom();
 
   const goTo = (room: Room<TCtx>) => {
-    setCurrentRoom(room());
+    setCurrentRoom(room(ctx));
     ctx.avatar.get().onEnterRoom?.(ctx);
     for (const obj of currentRoom().objects) {
       obj.onEnterRoom?.(ctx);
@@ -54,15 +54,15 @@ export const loadRoomAssets = async <TCtx extends GameCtx>(ctx: TCtx) => {
 };
 
 export const createStaticRoom = <TCtx extends GameCtx>(
-  factory: () => RoomData<TCtx>,
+  factory: (ctx: TCtx) => RoomData<TCtx>,
 ): Room<TCtx> => {
   let cached: RoomData<TCtx> | null = null;
-  const fn = () => (cached ??= factory());
+  const fn = (ctx: TCtx) => (cached ??= factory(ctx));
   return Object.assign(fn, { __sigil: "StaticOrResetRoom" as const });
 };
 
 export const createResetRoom = <TCtx extends GameCtx>(
-  factory: () => RoomData<TCtx>,
+  factory: (ctx: TCtx) => RoomData<TCtx>,
 ): Room<TCtx> => {
   return Object.assign(factory, { __sigil: "StaticOrResetRoom" as const });
 };

@@ -8,15 +8,24 @@ import {
 import { unreachable } from "@roc/util/common";
 
 export type Sprite =
-  | { type: "fromFile"; path: string; scale?: number }
+  | { type: "fromFile"; path: string; scale?: number; flipped?: boolean }
   | { type: "circle"; radius: number; label?: string };
 
 export const Sprite = {
-  fromFile: (path: string, scale?: number): Sprite => ({
-    type: "fromFile",
-    path,
-    scale,
-  }),
+  fromFile: (
+    path: string,
+    scale?: number,
+    flipped?: boolean,
+  ): Sprite & { flip: () => Sprite } => {
+    const sprite = {
+      type: "fromFile" as const,
+      path,
+      scale,
+      flipped,
+      flip: () => Sprite.fromFile(path, scale, true),
+    };
+    return sprite;
+  },
 
   circle: (radius: number, label?: string): Sprite => ({
     type: "circle",
@@ -57,9 +66,9 @@ export const renderSprite = (
       const pixiSprite = PixiSprite.from(sprite.path);
       pixiSprite.anchor.set(0.5, 1.0); // bottom center
       pixiSprite.texture.source.scaleMode = "nearest";
-      if (sprite.scale) {
-        pixiSprite.scale.set(sprite.scale);
-      }
+      const scaleValue = sprite.scale ?? 1;
+      const scaleX = sprite.flipped ? -scaleValue : scaleValue;
+      pixiSprite.scale.set(scaleX, scaleValue);
       container.addChild(pixiSprite);
       break;
     }
