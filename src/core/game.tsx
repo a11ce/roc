@@ -6,6 +6,7 @@ import { type LayoutController } from "./layout";
 import { type AvatarController } from "./avatar";
 
 export interface GameCtx {
+  gameName: string;
   log: Log;
   room: RoomController<this>;
   avatar: AvatarController;

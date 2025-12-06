@@ -41,7 +41,7 @@ const TopviewRoom: Component = () => {
         if (!obj.getSprite || !obj.getX) continue;
         const container = new Container();
         const sprite = obj.getSprite(ctx);
-        renderSprite(sprite, container, dark, light);
+        renderSprite(sprite, container, dark, light, ctx.gameName);
         container.x = obj.getX(ctx);
         container.y = obj.getY ? obj.getY(ctx) : pixiApp.screen.height / 2;
         scene.addChild(container);

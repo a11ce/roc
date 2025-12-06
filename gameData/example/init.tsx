@@ -18,6 +18,8 @@ export function initializeExample(): ExampleCtx {
 
   const ctx = {} as ExampleCtx;
 
+  ctx.gameName = "example";
+
   ctx.log = log;
   ctx.input = input;
   ctx.layout = layout;

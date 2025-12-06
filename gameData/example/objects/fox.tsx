@@ -5,14 +5,14 @@ import type { ExampleCtx } from "../game";
 export function createFox(x: number): GameObject<ExampleCtx> {
   let hasBeenPet = false;
 
-  const getAssetPaths = () => ["/assets/fox.png"];
+  const getAssetPaths = () => ["fox.png"];
 
   const getX = () => x;
 
   const getDisplayName = () => "fox";
 
   const getSprite = (_ctx: ExampleCtx) => {
-    return Sprite.fromFile("/assets/fox.png", 5);
+    return Sprite.fromFile("fox.png", 5);
   };
 
   const onEnterInteractRange = async (ctx: ExampleCtx) => {

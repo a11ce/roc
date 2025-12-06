@@ -54,7 +54,7 @@ const SideviewRoom: Component = () => {
         if (!obj.getSprite || !obj.getX) continue;
         const container = new Container();
         const sprite = obj.getSprite(ctx);
-        renderSprite(sprite, container, dark, light);
+        renderSprite(sprite, container, dark, light, ctx.gameName);
         const objY =
           sprite.type === "circle" ? groundY - sprite.radius : groundY;
         container.x = obj.getX(ctx);

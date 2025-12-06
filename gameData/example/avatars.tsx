@@ -8,12 +8,12 @@ export const avatarTopview = createAvatarTopview();
 
 export const foxAvatarSideview = {
   ...createAvatarSideview(),
-  getAssetPaths: () => ["/assets/fox.png"],
-  getSprite: () => Sprite.fromFile("/assets/fox.png", 5),
+  getAssetPaths: () => ["fox.png"],
+  getSprite: () => Sprite.fromFile("fox.png", 5),
 };
 
 export const foxAvatarTopview = {
   ...createAvatarTopview(),
-  getAssetPaths: () => ["/assets/fox.png"],
-  getSprite: () => Sprite.fromFile("/assets/fox.png", 5),
+  getAssetPaths: () => ["fox.png"],
+  getSprite: () => Sprite.fromFile("fox.png", 5),
 };

@@ -17,14 +17,13 @@ export const Sprite = {
     scale?: number,
     flipped?: boolean,
   ): Sprite & { flip: () => Sprite } => {
-    const sprite = {
+    return {
       type: "fromFile" as const,
       path,
       scale,
       flipped,
-      flip: () => Sprite.fromFile(path, scale, true),
+      flip: () => Sprite.fromFile(path, scale, !flipped),
     };
-    return sprite;
   },
 
   circle: (radius: number, label?: string): Sprite => ({
@@ -39,6 +38,7 @@ export const renderSprite = (
   container: Container,
   dark: Color,
   light: Color,
+  gameName: string,
 ) => {
   container.removeChildren();
 
@@ -63,7 +63,8 @@ export const renderSprite = (
       break;
     }
     case "fromFile": {
-      const pixiSprite = PixiSprite.from(sprite.path);
+      const resolvedPath = resolveAssetPath(sprite.path, gameName);
+      const pixiSprite = PixiSprite.from(resolvedPath);
       pixiSprite.anchor.set(0.5, 1.0); // bottom center
       pixiSprite.texture.source.scaleMode = "nearest";
       const scaleValue = sprite.scale ?? 1;
@@ -75,4 +76,8 @@ export const renderSprite = (
     default:
       unreachable(sprite);
   }
+};
+
+export const resolveAssetPath = (path: string, gameName: string): string => {
+  return `/art/${gameName}/${path}`;
 };

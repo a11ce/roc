@@ -3,6 +3,7 @@ import { createSignal } from "solid-js";
 import { type GameObject } from "./gameObject";
 import { type GameCtx } from "./game";
 import { type AvatarPosition } from "./avatar";
+import { resolveAssetPath } from "./sprite";
 
 export interface RoomData<TCtx extends GameCtx> {
   avatarPosition: AvatarPosition;
@@ -41,14 +42,14 @@ export const createRoomController = <TCtx extends GameCtx>(
 };
 
 export const loadRoomAssets = async <TCtx extends GameCtx>(ctx: TCtx) => {
-  const avatar = ctx.avatar.get();
-  if (avatar?.getAssetPaths) {
-    await Assets.load(avatar.getAssetPaths());
-  }
+  const allObjects = [ctx.avatar.get(), ...ctx.room.get().objects];
 
-  for (const obj of ctx.room.get().objects) {
+  for (const obj of allObjects) {
     if (obj.getAssetPaths) {
-      await Assets.load(obj.getAssetPaths());
+      const paths = obj
+        .getAssetPaths()
+        .map((path) => resolveAssetPath(path, ctx.gameName));
+      await Assets.load(paths);
     }
   }
 };
