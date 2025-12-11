@@ -6,8 +6,10 @@ import { Sprite } from "@roc/core/sprite";
 const INTERACT_RANGE = 50;
 const MOVE_SPEED = 2;
 
-export function createAvatarSideview(): Avatar<GameCtx> {
+export function createAvatarSideview(initialSpeed = 2): Avatar<GameCtx> {
   const objectsInRange = new Set<object>();
+  let moveSpeed = initialSpeed;
+
 
   const distance = (ctx: GameCtx, obj: GameObject<GameCtx>) =>
     obj.getX
@@ -44,11 +46,11 @@ export function createAvatarSideview(): Avatar<GameCtx> {
     let newPosition = { ...position };
 
     if (ctx.input.isKeyPressed("a")) {
-      newPosition.x -= MOVE_SPEED;
+      newPosition.x -= moveSpeed;
       onPlayerMove(ctx);
     }
     if (ctx.input.isKeyPressed("d")) {
-      newPosition.x += MOVE_SPEED;
+      newPosition.x += moveSpeed;
       onPlayerMove(ctx);
     }
     if (ctx.input.consumeKeyPress(" ")) {
