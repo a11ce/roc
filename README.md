@@ -99,3 +99,7 @@ Represents the global game log. Components can display this in different ways. M
 
 - `set(layout: LayoutSpec): void`
 - `get(): JSX.Element`
+
+### `ctx.task`
+
+- `runTask(onTick: () => boolean): Promise<void>`. Starts a task which calls `onTick` each frame. When `onTick` returns true, the task ends. Use `await` to wait for the task to end.

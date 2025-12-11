@@ -3,6 +3,7 @@ import { createInputHandler } from "@roc/core/input";
 import { createRoomController } from "@roc/core/room";
 import { createLayoutController } from "@roc/core/layout";
 import { createAvatarController } from "@roc/core/avatar";
+import { createTaskController } from "@roc/core/task";
 import { createInventory } from "./inventory";
 import { avatarSideview } from "./avatars";
 import { forest } from "./rooms/forest";
@@ -14,6 +15,7 @@ export function initializeExample(): ExampleCtx {
   const input = createInputHandler();
   const layout = createLayoutController();
   const avatar = createAvatarController(avatarSideview);
+  const task = createTaskController();
   log.attachInputHandler(input);
 
   const ctx = {} as ExampleCtx;
@@ -24,6 +26,7 @@ export function initializeExample(): ExampleCtx {
   ctx.input = input;
   ctx.layout = layout;
   ctx.avatar = avatar;
+  ctx.task = task;
   ctx.room = createRoomController(ctx);
   ctx.playerInventory = createInventory(ctx);
   ctx.isFox = false;

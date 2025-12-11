@@ -10,6 +10,7 @@ const Roc: Component = () => {
   ticker.maxFPS = 60;
 
   ticker.add(() => {
+    gameCtx.task.update();
     const avatar = gameCtx.avatar.get();
     if (avatar) {
       const newPosition = avatar.processInput(

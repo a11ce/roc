@@ -2,7 +2,12 @@ import { type GameObject } from "@roc/core/gameObject";
 import { Sprite } from "@roc/core/sprite";
 import type { ExampleCtx } from "../game";
 
-export function createFox(x: number): GameObject<ExampleCtx> {
+export function createFox(startX: number): GameObject<ExampleCtx> {
+  const xAfterMoving = 1000;
+  const speed = 2;
+  let x = startX;
+  let isMovingRight = false;
+  let hasMoved = false;
   let hasBeenPet = false;
 
   const getAssetPaths = () => ["fox.png"];
@@ -12,7 +17,8 @@ export function createFox(x: number): GameObject<ExampleCtx> {
   const getDisplayName = () => "fox";
 
   const getSprite = (_ctx: ExampleCtx) => {
-    return Sprite.fromFile("fox.png", 5);
+    const sprite = Sprite.fromFile("fox.png", 5);
+    return isMovingRight ? sprite.flip() : sprite;
   };
 
   const onEnterInteractRange = async (ctx: ExampleCtx) => {
@@ -20,6 +26,16 @@ export function createFox(x: number): GameObject<ExampleCtx> {
       ctx.log.write("the fox licks ur hand");
     } else {
       ctx.log.write("the fox growls");
+      if (!hasMoved) {
+        hasMoved = true;
+        isMovingRight = true;
+        await ctx.task.runTask(() => {
+          x += speed;
+          return x >= xAfterMoving;
+        });
+        isMovingRight = false;
+        ctx.log.write("the fox stops and stares at you");
+      }
     }
   };
 

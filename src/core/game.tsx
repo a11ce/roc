@@ -4,6 +4,7 @@ import { type RoomController } from "./room";
 import { type InputHandler } from "./input";
 import { type LayoutController } from "./layout";
 import { type AvatarController } from "./avatar";
+import { type TaskController } from "./task";
 
 export interface GameCtx {
   gameName: string;
@@ -12,6 +13,7 @@ export interface GameCtx {
   avatar: AvatarController;
   input: InputHandler;
   layout: LayoutController;
+  task: TaskController;
 }
 
 const GameCtxContext = createContext<GameCtx>();
