@@ -4,7 +4,7 @@ import type { ExampleCtx } from "../game";
 
 export function createFox(startX: number): GameObject<ExampleCtx> {
   const xAfterMoving = 1000;
-  const speed = 2;
+  const speed = 2.5;
   let x = startX;
   let isMovingRight = false;
   let hasMoved = false;

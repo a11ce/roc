@@ -9,6 +9,7 @@ export interface RoomData<TCtx extends GameCtx> {
   avatarPosition: AvatarPosition;
   objects: GameObject<TCtx>[];
   onEnter?(ctx: TCtx): void;
+  onLeave?(ctx: TCtx): void;
 }
 
 export type Room<TCtx extends GameCtx> = ((ctx: TCtx) => RoomData<TCtx>) & {
@@ -30,6 +31,7 @@ export const createRoomController = <TCtx extends GameCtx>(
   const get = () => currentRoom();
 
   const goTo = (room: Room<TCtx>) => {
+    currentRoom()?.onLeave?.(ctx);
     setCurrentRoom(room(ctx));
     ctx.avatar.get().onEnterRoom?.(ctx);
     for (const obj of currentRoom().objects) {

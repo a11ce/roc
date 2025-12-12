@@ -22,6 +22,7 @@ Rooms are defined using `createStaticRoom` or `createResetRoom` with a function 
 - `avatarPosition: { x: number, y: number }`. The initial position of the avatar when entering the room for the first time (or every time, if the room is a reset room.)
 - `objects: GameObject[]`. The objects present in the room.
 - `onEnter(ctx): void`. Called when the player enters the room. Optional.
+- `onLeave(ctx): void`. Called when the player leaves the room. Optional.
 
 ### GameObjects
 
@@ -104,3 +105,10 @@ Represents the global game log. Components can display this in different ways. M
 ### `ctx.task`
 
 - `runTask(onTick: () => boolean): Promise<void>`. Starts a task which calls `onTick` each frame. When `onTick` returns true, the task ends. Use `await` to wait for the task to end.
+
+### `ctx.color`
+
+- `setDark(color: string): void`
+- `setLight(color: string): void`
+- `getDark(): Color`
+- `getLight(): Color`

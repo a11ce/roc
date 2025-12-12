@@ -18,13 +18,13 @@ const Debug: Component = () => {
   const onDarkColorChange = (e: Event) => {
     const target = e.target as HTMLInputElement;
     setDarkColor(target.value);
-    document.documentElement.style.setProperty("--dark", target.value);
+    ctx.color.setDark(target.value);
   };
 
   const onLightColorChange = (e: Event) => {
     const target = e.target as HTMLInputElement;
     setLightColor(target.value);
-    document.documentElement.style.setProperty("--light", target.value);
+    ctx.color.setLight(target.value);
   };
 
   return (
