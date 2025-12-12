@@ -1,7 +1,11 @@
 import { type GameObject } from "@roc/core/gameObject";
 import { type GameCtx } from "@roc/core/game";
+import { type JSX } from "solid-js";
 
-export function createLatchText(x: number, text: string): GameObject<GameCtx> {
+export function createLatchText(
+  x: number,
+  text: string | JSX.Element,
+): GameObject<GameCtx> {
   let latch = false;
 
   const getX = () => x;
@@ -10,7 +14,11 @@ export function createLatchText(x: number, text: string): GameObject<GameCtx> {
 
   const onEnterInteractRange = async (ctx: GameCtx) => {
     if (!latch) {
-      ctx.log.write(text);
+      if (typeof text === "string") {
+        ctx.log.write(text);
+      } else {
+        ctx.log.writeHTML(text);
+      }
       latch = true;
     }
   };

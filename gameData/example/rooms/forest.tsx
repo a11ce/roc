@@ -9,7 +9,12 @@ import { cave } from "./cave";
 import type { ExampleCtx } from "../game";
 
 export const forest = createStaticRoom<ExampleCtx>(() => {
-  const sign = createLatchText(300, "You see a sign saying BEWARE OF FOX");
+  const sign = createLatchText(
+    300,
+    <>
+      You see a sign saying <span style={{ color: "red" }}>BEWARE OF FOX</span>
+    </>,
+  );
   const fox = createFox(500);
 
   const castleDoor = createDoor(600, "castle", castle, async (ctx) => {
