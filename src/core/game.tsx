@@ -6,6 +6,7 @@ import { type LayoutController } from "./layout";
 import { type AvatarController } from "./avatar";
 import { type TaskController } from "./task";
 import { type ColorController } from "./colors";
+import { type AudioController } from "./audio";
 
 export interface GameCtx {
   gameName: string;
@@ -16,6 +17,7 @@ export interface GameCtx {
   layout: LayoutController;
   task: TaskController;
   color: ColorController;
+  audio: AudioController;
 }
 
 const GameCtxContext = createContext<GameCtx>();

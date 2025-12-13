@@ -3,7 +3,7 @@ import { createSignal } from "solid-js";
 import { type GameObject } from "./gameObject";
 import { type GameCtx } from "./game";
 import { type AvatarPosition } from "./avatar";
-import { resolveAssetPath } from "./sprite";
+import { resolveAssetPath } from "@roc/util/common";
 
 export interface RoomData<TCtx extends GameCtx> {
   avatarPosition: AvatarPosition;

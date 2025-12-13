@@ -5,7 +5,7 @@ import {
   Color,
   Sprite as PixiSprite,
 } from "pixi.js";
-import { unreachable } from "@roc/util/common";
+import { unreachable, resolveAssetPath } from "@roc/util/common";
 
 export type Sprite =
   | { type: "fromFile"; path: string; scale?: number; flipped?: boolean }
@@ -104,8 +104,4 @@ export const renderSprite = (
     default:
       unreachable(sprite);
   }
-};
-
-export const resolveAssetPath = (path: string, gameName: string): string => {
-  return `/art/${gameName}/${path}`;
 };

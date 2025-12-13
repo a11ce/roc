@@ -5,6 +5,7 @@ import { avatarTopview, foxAvatarTopview } from "../avatars";
 import { topview } from "../layouts";
 import { forest } from "./forest";
 import type { ExampleCtx } from "../game";
+import type { SoundLoop } from "@roc/core/audio";
 
 export const castle = createStaticRoom<ExampleCtx>(() => {
   const foxButton = createFoxButton(200, 300);
@@ -19,15 +20,23 @@ export const castle = createStaticRoom<ExampleCtx>(() => {
     200,
   );
 
+  let musicLoop!: SoundLoop;
+
   const onEnter = (ctx: ExampleCtx) => {
     ctx.avatar.set(ctx.isFox ? foxAvatarTopview : avatarTopview);
     ctx.layout.set(topview);
     ctx.log.write("you are in the castle");
+    musicLoop = ctx.audio.startLoop("castleMusic.mp3", 0.5);
+  };
+
+  const onLeave = () => {
+    musicLoop.stop();
   };
 
   return {
     avatarPosition: { x: 300, y: 300 },
     objects: [foxButton, door],
     onEnter,
+    onLeave,
   };
 });

@@ -44,6 +44,7 @@ export function createFox(startX: number): GameObject<ExampleCtx> {
     if ((await ctx.log.showButtons("yes", "no")) === "yes") {
       ctx.log.write("you pet the fox");
       if (!hasBeenPet) {
+        ctx.audio.play("metalPipe.mp3");
         ctx.log.write("the fox drops a small key at your feet");
         ctx.log.write("you pick it up");
         hasBeenPet = true;
