@@ -1,11 +1,18 @@
-import { Component, createSignal, For } from "solid-js";
+import { Component, createSignal, For, onCleanup } from "solid-js";
 import { getGameCtx } from "@roc/core/game";
 
 const Debug: Component = () => {
   const ctx = getGameCtx();
   const objects = () => ctx.room.get().objects;
+  const [playerX, setPlayerX] = createSignal(0);
   const [darkColor, setDarkColor] = createSignal("#222323");
   const [lightColor, setLightColor] = createSignal("#f0f6f0");
+
+  const interval = setInterval(() => {
+    setPlayerX(ctx.room.get().avatarPosition.x);
+  }, 16);
+
+  onCleanup(() => clearInterval(interval));
 
   const onToggleFullscreen = () => {
     if (!document.fullscreenElement) {
@@ -29,6 +36,7 @@ const Debug: Component = () => {
 
   return (
     <div class="panel" style={{ gap: "8px" }}>
+      <div>x: {playerX()}</div>
       <For each={objects()}>
         {(obj) => (
           <div style={{ display: "flex", gap: "4px" }}>
