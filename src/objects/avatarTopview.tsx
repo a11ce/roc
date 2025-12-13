@@ -49,19 +49,19 @@ export function createAvatarTopview(): Avatar<GameCtx> {
   const processInput = (ctx: GameCtx, position: AvatarPosition) => {
     let newPosition = { ...position };
 
-    if (ctx.input.isKeyPressed("a")) {
+    if (ctx.input.isKeyPressed("a") || ctx.input.isKeyPressed("ArrowLeft")) {
       newPosition.x -= MOVE_SPEED;
       onPlayerMove(ctx);
     }
-    if (ctx.input.isKeyPressed("d")) {
+    if (ctx.input.isKeyPressed("d") || ctx.input.isKeyPressed("ArrowRight")) {
       newPosition.x += MOVE_SPEED;
       onPlayerMove(ctx);
     }
-    if (ctx.input.isKeyPressed("w")) {
+    if (ctx.input.isKeyPressed("w") || ctx.input.isKeyPressed("ArrowUp")) {
       newPosition.y -= MOVE_SPEED;
       onPlayerMove(ctx);
     }
-    if (ctx.input.isKeyPressed("s")) {
+    if (ctx.input.isKeyPressed("s") || ctx.input.isKeyPressed("ArrowDown")) {
       newPosition.y += MOVE_SPEED;
       onPlayerMove(ctx);
     }
