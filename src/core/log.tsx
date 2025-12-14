@@ -112,6 +112,7 @@ export function createLog(): Log {
       store.pendingChoice.resolve(choice);
       setStore("pendingChoice", null);
       setHighlightedOption(null);
+      clearkeyBinds();
       inputHandler?.unlock();
     }
   };
