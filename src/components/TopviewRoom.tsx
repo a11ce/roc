@@ -27,7 +27,11 @@ const TopviewRoom: Component = () => {
     const scene = new Container();
     pixiApp.stage.addChild(scene);
 
+    const staticScene = new Container();
+    pixiApp.stage.addChild(staticScene);
+
     const containerCache = new Map<GameObject<GameCtx>, Container>();
+    const staticContainerCache = new Map<GameObject<GameCtx>, Container>();
 
     pixiApp.ticker.add(() => {
       const dark = ctx.color.getDark();
@@ -46,21 +50,46 @@ const TopviewRoom: Component = () => {
           containerCache.delete(obj);
         }
       }
+      for (const [obj, container] of staticContainerCache) {
+        if (!activeObjects.has(obj)) {
+          staticScene.removeChild(container);
+          container.destroy({ children: true });
+          staticContainerCache.delete(obj);
+        }
+      }
 
       for (const obj of allObjects) {
         if (!obj.getSprite || !obj.getX) continue;
 
-        let container = containerCache.get(obj);
-        if (!container) {
-          container = new Container();
-          containerCache.set(obj, container);
-          scene.addChild(container);
-        }
-
         const sprite = obj.getSprite(ctx);
-        renderSprite(sprite, container, dark, light, ctx.gameName);
-        container.x = obj.getX(ctx);
-        container.y = obj.getY ? obj.getY(ctx) : pixiApp.screen.height / 2;
+
+        if (sprite.isStatic) {
+          let container = staticContainerCache.get(obj);
+          if (!container) {
+            container = new Container();
+            staticContainerCache.set(obj, container);
+            staticScene.addChild(container);
+          }
+
+          renderSprite(sprite, container, dark, light, ctx.gameName);
+
+          const percentage = obj.getX(ctx);
+          const canvasCenter = pixiApp.screen.width / 2;
+          container.x =
+            canvasCenter + (percentage / 100) * (pixiApp.screen.width / 2);
+          container.y = obj.getY ? obj.getY(ctx) : pixiApp.screen.height / 2;
+        } else {
+          let container = containerCache.get(obj);
+          if (!container) {
+            container = new Container();
+            containerCache.set(obj, container);
+            scene.addChild(container);
+          }
+
+          renderSprite(sprite, container, dark, light, ctx.gameName);
+          container.x = obj.getX(ctx);
+          container.y = obj.getY ? obj.getY(ctx) : pixiApp.screen.height / 2;
+        }
       }
     });
 

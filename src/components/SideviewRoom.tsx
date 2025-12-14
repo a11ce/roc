@@ -27,10 +27,14 @@ const SideviewRoom: Component = () => {
     const scene = new Container();
     pixiApp.stage.addChild(scene);
 
+    const staticScene = new Container();
+    pixiApp.stage.addChild(staticScene);
+
     const groundLine = new Graphics();
     scene.addChild(groundLine);
 
     const containerCache = new Map<GameObject<GameCtx>, Container>();
+    const staticContainerCache = new Map<GameObject<GameCtx>, Container>();
 
     let cameraX = 0;
 
@@ -84,26 +88,54 @@ const SideviewRoom: Component = () => {
           containerCache.delete(obj);
         }
       }
+      for (const [obj, container] of staticContainerCache) {
+        if (!activeObjects.has(obj)) {
+          staticScene.removeChild(container);
+          container.destroy({ children: true });
+          staticContainerCache.delete(obj);
+        }
+      }
 
       for (const obj of allObjects) {
         if (!obj.getSprite || !obj.getX) continue;
 
-        let container = containerCache.get(obj);
-        if (!container) {
-          container = new Container();
-          containerCache.set(obj, container);
-          scene.addChild(container);
-        }
-
         const sprite = obj.getSprite(ctx);
-        renderSprite(sprite, container, dark, light, ctx.gameName);
 
-        const baseY = obj.getY ? obj.getY(ctx) : 0;
-        const offsetY = sprite.type === "circle" ? sprite.radius : 0;
-        const objY = groundY - baseY - offsetY;
+        if (sprite.isStatic) {
+          let container = staticContainerCache.get(obj);
+          if (!container) {
+            container = new Container();
+            staticContainerCache.set(obj, container);
+            staticScene.addChild(container);
+          }
 
-        container.x = obj.getX(ctx);
-        container.y = objY;
+          renderSprite(sprite, container, dark, light, ctx.gameName);
+
+          const percentage = obj.getX(ctx);
+          const canvasCenter = width / 2;
+          container.x = canvasCenter + (percentage / 100) * (width / 2);
+
+          const baseY = obj.getY ? obj.getY(ctx) : 0;
+          const offsetY = sprite.type === "circle" ? sprite.radius : 0;
+          const objY = groundY - baseY - offsetY;
+          container.y = objY;
+        } else {
+          let container = containerCache.get(obj);
+          if (!container) {
+            container = new Container();
+            containerCache.set(obj, container);
+            scene.addChild(container);
+          }
+
+          renderSprite(sprite, container, dark, light, ctx.gameName);
+
+          const baseY = obj.getY ? obj.getY(ctx) : 0;
+          const offsetY = sprite.type === "circle" ? sprite.radius : 0;
+          const objY = groundY - baseY - offsetY;
+
+          container.x = obj.getX(ctx);
+          container.y = objY;
+        }
       }
     });
 

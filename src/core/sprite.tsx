@@ -8,29 +8,51 @@ import {
 import { unreachable, resolveAssetPath } from "@roc/util/common";
 
 export type Sprite =
-  | { type: "fromFile"; path: string; scale?: number; flipped?: boolean }
-  | { type: "circle"; radius: number; label?: string };
+  | {
+      type: "fromFile";
+      path: string;
+      scale?: number;
+      flipped?: boolean;
+      isStatic?: boolean;
+    }
+  | { type: "circle"; radius: number; label?: string; isStatic?: boolean };
 
 export const Sprite = {
   fromFile: (
     path: string,
     scale?: number,
     flipped?: boolean,
-  ): Sprite & { flip: () => Sprite } => {
+    isStatic?: boolean,
+  ): Sprite & { flip: () => Sprite; static: () => Sprite } => {
+    const flip = () => Sprite.fromFile(path, scale, !flipped, isStatic);
+    const makeStatic = () => Sprite.fromFile(path, scale, flipped, true);
+
     return {
       type: "fromFile" as const,
       path,
       scale,
       flipped,
-      flip: () => Sprite.fromFile(path, scale, !flipped),
+      isStatic,
+      flip,
+      static: makeStatic,
     };
   },
 
-  circle: (radius: number, label?: string): Sprite => ({
-    type: "circle",
-    radius,
-    label,
-  }),
+  circle: (
+    radius: number,
+    label?: string,
+    isStatic?: boolean,
+  ): Sprite & { static: () => Sprite } => {
+    const makeStatic = () => Sprite.circle(radius, label, true);
+
+    return {
+      type: "circle",
+      radius,
+      label,
+      isStatic,
+      static: makeStatic,
+    };
+  },
 };
 
 export const renderSprite = (

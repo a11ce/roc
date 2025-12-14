@@ -7,6 +7,7 @@ import { sideview, sideviewBeforeInventory } from "../layouts";
 import { castle } from "./castle";
 import { cave } from "./cave";
 import type { ExampleCtx } from "../game";
+import { createSun } from "../objects/sun";
 
 export const forest = createStaticRoom<ExampleCtx>(() => {
   const sign = createLatchText(
@@ -32,6 +33,8 @@ export const forest = createStaticRoom<ExampleCtx>(() => {
     return (await ctx.log.showButtons("yes", "no")) === "yes";
   });
 
+  const sun = createSun();
+
   const onEnter = (ctx: ExampleCtx) => {
     ctx.avatar.set(ctx.isFox ? foxAvatarSideview : avatarSideview);
     const hasInventory = ctx.playerInventory.getItems().length > 0;
@@ -41,7 +44,7 @@ export const forest = createStaticRoom<ExampleCtx>(() => {
 
   return {
     avatarPosition: { x: 100, y: 0 },
-    objects: [sign, caveDoor, fox, castleDoor],
+    objects: [sign, caveDoor, fox, castleDoor, sun],
     onEnter,
     sideviewGfx: { width: 2000, scrollDeadzone: 50 },
   };
