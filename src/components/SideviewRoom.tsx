@@ -47,7 +47,7 @@ const SideviewRoom: Component = () => {
       groundLine.lineTo(width, groundY);
       groundLine.stroke({ width: 2, color: light });
 
-      const allObjects = [ctx.avatar.get(), ...ctx.room.get().objects];
+      const allObjects = [...ctx.room.get().objects, ctx.avatar.get()];
       const activeObjects = new Set(allObjects);
 
       // Remove containers for objects that no longer exist

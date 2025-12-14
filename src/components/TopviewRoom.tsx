@@ -35,7 +35,7 @@ const TopviewRoom: Component = () => {
 
       pixiApp.renderer.background.color = dark;
 
-      const allObjects = [ctx.avatar.get(), ...ctx.room.get().objects];
+      const allObjects = [...ctx.room.get().objects, ctx.avatar.get()];
       const activeObjects = new Set(allObjects);
 
       // Remove containers for objects that no longer exist
