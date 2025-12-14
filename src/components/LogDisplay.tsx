@@ -1,11 +1,18 @@
-import { Component, For, Show } from "solid-js";
+import { Component, For, Show, createEffect } from "solid-js";
 import { getGameCtx } from "@roc/core/game";
 
 const LogDisplay: Component = () => {
   const ctx = getGameCtx();
+  let logContainerRef!: HTMLDivElement;
+
+  createEffect(() => {
+    ctx.log.getMessages().length;
+    ctx.log.getPendingChoice();
+    logContainerRef.scrollTop = logContainerRef.scrollHeight;
+  });
 
   return (
-    <div class="panel">
+    <div class="panel" ref={logContainerRef}>
       <For each={ctx.log.getMessages()}>
         {(message) => <div>{message}</div>}
       </For>
