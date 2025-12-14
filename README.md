@@ -62,6 +62,7 @@ The provided components are:
 - `SideviewRoom` from `@roc/components/SideviewRoom`
 - `TopviewRoom` from `@roc/components/TopviewRoom`
 - `LogDisplay` from `@roc/components/LogDisplay`
+- `Blank` from `@roc/components/Blank`. Borderless blank panel
 
 Components are normal SolidJS components with empty props. (See `example/components/InventoryDisplay.tsx`) 
 
