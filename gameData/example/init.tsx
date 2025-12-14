@@ -37,6 +37,15 @@ export function initializeExample(): ExampleCtx {
   ctx.playerInventory = createInventory(ctx);
   ctx.isFox = false;
 
+  const writeParagraph = (text: string) => {
+    ctx.log.writeHTML(() => (
+      <span style={{ "max-width": "600px", display: "inline-block" }}>
+        {text}
+      </span>
+    ));
+  };
+  ctx.writeParagraph = writeParagraph;
+
   ctx.audio.init(ctx);
 
   ctx.layout.set(sideviewBeforeInventory);

@@ -9,7 +9,7 @@ import InventoryDisplay from "./components/InventoryDisplay";
 export const sideviewBeforeInventory = vSplit(
   25,
   SideviewRoom,
-  hSplit(25, Debug, hSplit(50, LogDisplay, Blank)),
+  hSplit(25, Debug, vSplit(80, LogDisplay, Blank)),
 );
 
 export const sideview = vSplit(
