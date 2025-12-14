@@ -7,25 +7,46 @@ import {
 } from "pixi.js";
 import { unreachable, resolveAssetPath } from "@roc/util/common";
 
+export type AnchorPoint =
+  | "TopLeft"
+  | "TopCenter"
+  | "TopRight"
+  | "LeftCenter"
+  | "Center"
+  | "RightCenter"
+  | "BottomLeft"
+  | "BottomCenter"
+  | "BottomRight";
+
+interface FromFileSprite {
+  type: "fromFile";
+  path: string;
+  scale?: number;
+  flipped?: boolean;
+  isStatic?: boolean;
+  anchor?: AnchorPoint;
+  flip(): FromFileSprite;
+  static(): FromFileSprite;
+  setAnchor(newAnchor: AnchorPoint): FromFileSprite;
+}
+
 export type Sprite =
-  | {
-      type: "fromFile";
-      path: string;
-      scale?: number;
-      flipped?: boolean;
-      isStatic?: boolean;
-    }
+  | FromFileSprite
   | { type: "circle"; radius: number; label?: string; isStatic?: boolean };
 
 export const Sprite = {
   fromFile: (
     path: string,
     scale?: number,
+    anchor?: AnchorPoint,
     flipped?: boolean,
     isStatic?: boolean,
-  ): Sprite & { flip: () => Sprite; static: () => Sprite } => {
-    const flip = () => Sprite.fromFile(path, scale, !flipped, isStatic);
-    const makeStatic = () => Sprite.fromFile(path, scale, flipped, true);
+  ): FromFileSprite => {
+    const flip = () => Sprite.fromFile(path, scale, anchor, !flipped, isStatic);
+    const makeStatic = () =>
+      Sprite.fromFile(path, scale, anchor, flipped, true);
+    const setAnchor = (newAnchor: AnchorPoint) =>
+      Sprite.fromFile(path, scale, newAnchor, flipped, isStatic);
 
     return {
       type: "fromFile" as const,
@@ -33,8 +54,10 @@ export const Sprite = {
       scale,
       flipped,
       isStatic,
+      anchor,
       flip,
       static: makeStatic,
+      setAnchor,
     };
   },
 
@@ -53,6 +76,27 @@ export const Sprite = {
       static: makeStatic,
     };
   },
+};
+
+const parseAnchor = (
+  anchor: AnchorPoint = "BottomCenter",
+): [number, number] => {
+  let x = 0.5;
+  let y = 0.5;
+
+  if (anchor.includes("Left")) {
+    x = 0;
+  } else if (anchor.includes("Right")) {
+    x = 1.0;
+  }
+
+  if (anchor.includes("Top")) {
+    y = 0;
+  } else if (anchor.includes("Bottom")) {
+    y = 1.0;
+  }
+
+  return [x, y];
 };
 
 export const renderSprite = (
@@ -107,7 +151,8 @@ export const renderSprite = (
       if (!pixiSprite || !(pixiSprite instanceof PixiSprite)) {
         container.removeChildren();
         pixiSprite = PixiSprite.from(resolvedPath);
-        pixiSprite.anchor.set(0.5, 1.0); // bottom center
+        const [anchorX, anchorY] = parseAnchor(sprite.anchor);
+        pixiSprite.anchor.set(anchorX, anchorY);
         pixiSprite.texture.source.scaleMode = "nearest";
         container.addChild(pixiSprite);
         (container as any)._cachedPath = resolvedPath;
@@ -117,6 +162,9 @@ export const renderSprite = (
         pixiSprite.texture.source.scaleMode = "nearest";
         (container as any)._cachedPath = resolvedPath;
       }
+
+      const [anchorX, anchorY] = parseAnchor(sprite.anchor);
+      pixiSprite.anchor.set(anchorX, anchorY);
 
       const scaleValue = sprite.scale ?? 1;
       const scaleX = sprite.flipped ? -scaleValue : scaleValue;

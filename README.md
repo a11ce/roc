@@ -46,6 +46,12 @@ The following GameObject types are provided:
 
 - `createLatchText(x: number, text: string | (() => JSX.Element))` from `@roc/objects/latchText`. Writes the given text or JSX to the log when the player walks past it for the first time. For JSX, requires a function that returns the JSX element.
 
+### Sprites
+
+- `.flip()`. horizontal flip
+- `.static()`. relative to camera viewport
+- `.setAnchor(anchor: AnchorPoint)`. Anchor points: `TopLeft`, `TopCenter`, `BottomRight`, `Center`, etc
+
 ### Avatars
 
 Avatars are special GameObjects that represent the player or player character. You will usually define your own avatars by modifying provided avatars. (See `example/avatars.tsx`)
