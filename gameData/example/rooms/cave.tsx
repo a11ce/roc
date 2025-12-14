@@ -1,15 +1,21 @@
 import { createDoor } from "../objects/door";
+import { createGem } from "../objects/gem";
 import { createResetRoom } from "@roc/core/room";
 import { forest } from "./forest";
 import type { ExampleCtx } from "../game";
 
 export const cave = createResetRoom<ExampleCtx>(() => {
-  const gems = Math.floor(Math.random() * 5) + 1;
+  const gems = Math.floor(Math.random() * 5) + 2;
   let previousDarkColor: string | null = null;
 
   const door = createDoor(400, "exit", forest, async (ctx) => {
     ctx.log.write("leave?");
     return (await ctx.log.showButtons("yes", "no")) === "yes";
+  });
+
+  const gemObjects = Array.from({ length: gems }, (_, i) => {
+    const x = 200 + i * 100;
+    return createGem(x, -40);
   });
 
   const onEnter = (ctx: ExampleCtx) => {
@@ -28,7 +34,7 @@ export const cave = createResetRoom<ExampleCtx>(() => {
 
   return {
     avatarPosition: { x: 100, y: 0 },
-    objects: [door],
+    objects: [door, ...gemObjects],
     onEnter,
     onLeave,
   };
