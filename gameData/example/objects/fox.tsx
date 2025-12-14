@@ -39,6 +39,12 @@ export function createFox(startX: number): GameObject<ExampleCtx> {
     }
   };
 
+  const onLeaveInteractRange = async (ctx: ExampleCtx) => {
+    if (hasBeenPet) {
+      ctx.log.write("fox is sad :(");
+    }
+  };
+
   const onInteract = async (ctx: ExampleCtx) => {
     ctx.log.write("try to pet the fox?");
     if ((await ctx.log.showButtons("yes", "no")) === "yes") {
@@ -61,6 +67,7 @@ export function createFox(startX: number): GameObject<ExampleCtx> {
     getDisplayName,
     getSprite,
     onEnterInteractRange,
+    onLeaveInteractRange,
     onInteract,
   };
 }

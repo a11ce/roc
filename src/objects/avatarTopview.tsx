@@ -41,6 +41,9 @@ export function createAvatarTopview(speed = 2): Avatar<GameCtx> {
         }
       } else {
         objectsInRange.delete(obj);
+        if (obj.onLeaveInteractRange) {
+          await obj.onLeaveInteractRange(ctx);
+        }
       }
     }
   };

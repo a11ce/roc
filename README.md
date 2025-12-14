@@ -39,6 +39,7 @@ GameObjects can have the following methods. All methods are optional. Different 
 - `getAssetPaths(): string[]`. Paths for all image assets used by the object must be provided.
 - `getSprite(ctx): Sprite`.
 - `onEnterInteractRange(ctx): Promise<void>`. Called by the avatar when the player moves within interaction range.
+- `onLeaveInteractRange(ctx): Promise<void>`. Called by the avatar when the player leaves interaction range.
 - `onInteract(ctx): Promise<void>`. Called by the avatar when the player interacts with the object.
 - `onEnterRoom(ctx): void`. Called when the player enters the room containing the object.
 
