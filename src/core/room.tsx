@@ -5,11 +5,17 @@ import { type GameCtx } from "./game";
 import { type AvatarPosition } from "./avatar";
 import { resolveAssetPath } from "@roc/util/common";
 
+export interface SideviewGfxConfig {
+  width: number;
+  scrollDeadzone?: number;
+}
+
 export interface RoomData<TCtx extends GameCtx> {
   avatarPosition: AvatarPosition;
   objects: GameObject<TCtx>[];
   onEnter?(ctx: TCtx): void;
   onLeave?(ctx: TCtx): void;
+  sideviewGfx?: SideviewGfxConfig;
 }
 
 export type Room<TCtx extends GameCtx> = ((ctx: TCtx) => RoomData<TCtx>) & {

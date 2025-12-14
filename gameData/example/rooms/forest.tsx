@@ -43,5 +43,6 @@ export const forest = createStaticRoom<ExampleCtx>(() => {
     avatarPosition: { x: 100, y: 0 },
     objects: [sign, caveDoor, fox, castleDoor],
     onEnter,
+    sideviewGfx: { width: 2000, scrollDeadzone: 50 },
   };
 });

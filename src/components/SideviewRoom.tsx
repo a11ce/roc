@@ -32,6 +32,8 @@ const SideviewRoom: Component = () => {
 
     const containerCache = new Map<GameObject<GameCtx>, Container>();
 
+    let cameraX = 0;
+
     pixiApp.ticker.add(() => {
       const dark = ctx.color.getDark();
       const light = ctx.color.getLight();
@@ -42,9 +44,33 @@ const SideviewRoom: Component = () => {
       const height = pixiApp.screen.height;
       const groundY = height - 50;
 
+      // Camera scrolling
+      const roomData = ctx.room.get();
+      const sideviewGfx = roomData.sideviewGfx;
+      if (sideviewGfx) {
+        const playerX = roomData.avatarPosition.x;
+        const scrollDeadzone = sideviewGfx.scrollDeadzone ?? 0;
+        const deadzonePixels = (scrollDeadzone / 100) * width;
+        const minPlayerScreenX = width / 2 - deadzonePixels / 2;
+        const maxPlayerScreenX = width / 2 + deadzonePixels / 2;
+
+        const playerScreenX = playerX - cameraX;
+
+        if (playerScreenX < minPlayerScreenX) {
+          cameraX = playerX - minPlayerScreenX;
+        } else if (playerScreenX > maxPlayerScreenX) {
+          cameraX = playerX - maxPlayerScreenX;
+        }
+
+        cameraX = Math.max(0, Math.min(cameraX, sideviewGfx.width - width));
+      }
+
+      scene.x = -cameraX;
+
+      const roomWidth = sideviewGfx?.width ?? width;
       groundLine.clear();
       groundLine.moveTo(0, groundY);
-      groundLine.lineTo(width, groundY);
+      groundLine.lineTo(roomWidth, groundY);
       groundLine.stroke({ width: 2, color: light });
 
       const allObjects = [...ctx.room.get().objects, ctx.avatar.get()];

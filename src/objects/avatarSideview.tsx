@@ -67,6 +67,11 @@ export function createAvatarSideview(): Avatar<GameCtx> {
       }
     }
 
+    const sideviewGfx = ctx.room.get().sideviewGfx;
+    if (sideviewGfx) {
+      newPosition.x = Math.max(0, Math.min(newPosition.x, sideviewGfx.width));
+    }
+
     return newPosition;
   };
 
