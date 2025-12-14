@@ -13,8 +13,13 @@ const LogDisplay: Component = () => {
       <Show when={ctx.log.getPendingChoice()}>
         <div class="buttons">
           <For each={ctx.log.getPendingChoice()!.options}>
-            {(option) => (
-              <button onClick={() => ctx.log.onButtonClick(option)}>
+            {(option, index) => (
+              <button
+                onClick={() => ctx.log.onButtonClick(option)}
+                classList={{
+                  hover: ctx.log.getHighlightedOption() === index(),
+                }}
+              >
                 {option}
               </button>
             )}

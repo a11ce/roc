@@ -76,7 +76,7 @@ Represents the global game log. Components can display this in different ways. M
 
 - `write(text: string): void`. Writes text to the log.
 - `writeHTML(element: JSX.Element): void`. Writes a JSX element to the log.
-- `showButtons(...options: string[]): Promise<string>`. Shows mutually exclusive buttons to the player and returns the selected option.
+- `showButtons(...options: string[]): Promise<string>`. Shows mutually exclusive buttons to the player and returns the selected option. While buttons are shown, player input is locked and navigation/selection keys are bound to button navigation/selection.
 - `clear(): void`
 - `getMessages(): JSX.Element[]`
 
@@ -96,6 +96,7 @@ Represents the global game log. Components can display this in different ways. M
 - `consumeKeyPress(key: string): boolean`. Check if a key was pressed since the last check. Each keypress can only be consumed once.
 - `lock(): void`. Disable input.
 - `unlock(): void`. Enable input.
+- `bind(key: string, callback: () => boolean | void): KeyBind`. Binds a function to a key. When the key is pressed, the function is called (which consumes the keypress). If the callback returns `true`, the binding is removed. Returns a `KeyBind` object with `.remove()`.
 
 ### `ctx.layout`
 

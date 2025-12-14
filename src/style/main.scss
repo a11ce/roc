@@ -25,7 +25,8 @@ button {
   font-size: 14px;
   transition: background-color 0.2s;
 
-  &:hover {
+  &:hover,
+  &.hover {
     background-color: var(--light);
     color: var(--dark);
   }
