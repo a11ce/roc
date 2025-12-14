@@ -49,7 +49,7 @@ const SideviewRoom: Component = () => {
       const sideviewGfx = roomData.sideviewGfx;
       if (sideviewGfx) {
         const playerX = roomData.avatarPosition.x;
-        const scrollDeadzone = sideviewGfx.scrollDeadzone ?? 0;
+        const scrollDeadzone = sideviewGfx.scrollDeadzone ?? 50;
         const deadzonePixels = (scrollDeadzone / 100) * width;
         const minPlayerScreenX = width / 2 - deadzonePixels / 2;
         const maxPlayerScreenX = width / 2 + deadzonePixels / 2;
