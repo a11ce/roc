@@ -4,9 +4,8 @@ import { type GameCtx } from "@roc/core/game";
 import { Sprite } from "@roc/core/sprite";
 
 const INTERACT_RANGE = 50;
-const MOVE_SPEED = 2;
 
-export function createAvatarSideview(): Avatar<GameCtx> {
+export function createAvatarSideview(speed = 2): Avatar<GameCtx> {
   const objectsInRange = new Set<object>();
 
   const distance = (ctx: GameCtx, obj: GameObject<GameCtx>) =>
@@ -44,11 +43,11 @@ export function createAvatarSideview(): Avatar<GameCtx> {
     let newPosition = { ...position };
 
     if (ctx.input.isKeyPressed("a") || ctx.input.isKeyPressed("ArrowLeft")) {
-      newPosition.x -= MOVE_SPEED;
+      newPosition.x -= speed;
       onPlayerMove(ctx);
     }
     if (ctx.input.isKeyPressed("d") || ctx.input.isKeyPressed("ArrowRight")) {
-      newPosition.x += MOVE_SPEED;
+      newPosition.x += speed;
       onPlayerMove(ctx);
     }
     if (ctx.input.consumeKeyPress(" ")) {
