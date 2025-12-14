@@ -44,7 +44,7 @@ GameObjects can have the following methods. All methods are optional. Different 
 
 The following GameObject types are provided:
 
-- `createLatchText(x: number, text: string | JSX.Element)` from `@roc/objects/latchText`. Writes the given text or JSX to the log when the player walks past it for the first time.
+- `createLatchText(x: number, text: string | (() => JSX.Element))` from `@roc/objects/latchText`. Writes the given text or JSX to the log when the player walks past it for the first time. For JSX, requires a function that returns the JSX element.
 
 ### Avatars
 
@@ -76,13 +76,13 @@ You will often have access to a ctx object. You should extend the provided `Game
 
 ### `ctx.log`
 
-Represents the global game log. Components can display this in different ways. Messages are JSX elements.
+Represents the global game log. Components can display this in different ways. Messages are functions that return JSX elements.
 
 - `write(text: string): void`. Writes text to the log.
-- `writeHTML(element: JSX.Element): void`. Writes a JSX element to the log.
+- `writeHTML(element: () => JSX.Element): void`. Writes a JSX element to the log. Requires a function that returns the JSX element.
 - `showButtons(...options: string[]): Promise<string>`. Shows mutually exclusive buttons to the player and returns the selected option. While buttons are shown, player input is locked and navigation/selection keys are bound to button navigation/selection.
 - `clear(): void`
-- `getMessages(): JSX.Element[]`
+- `getMessages(): Component[]`
 
 ### `ctx.room`
 

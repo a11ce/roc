@@ -14,7 +14,11 @@ const LogDisplay: Component = () => {
   return (
     <div class="panel" ref={logContainerRef}>
       <For each={ctx.log.getMessages()}>
-        {(message) => <div>{message}</div>}
+        {(Message) => (
+          <div>
+            <Message />
+          </div>
+        )}
       </For>
 
       <Show when={ctx.log.getPendingChoice()}>

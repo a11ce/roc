@@ -4,7 +4,7 @@ import { type JSX } from "solid-js";
 
 export function createLatchText(
   x: number,
-  text: string | JSX.Element,
+  text: string | (() => JSX.Element),
 ): GameObject<GameCtx> {
   let latch = false;
 

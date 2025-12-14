@@ -10,12 +10,12 @@ import type { ExampleCtx } from "../game";
 import { createSun } from "../objects/sun";
 
 export const forest = createStaticRoom<ExampleCtx>(() => {
-  const sign = createLatchText(
-    300,
+  const sign = createLatchText(300, () => (
     <>
       You see a sign saying <span style={{ color: "red" }}>BEWARE OF FOX</span>
-    </>,
-  );
+    </>
+  ));
+
   const fox = createFox(500);
 
   const castleDoor = createDoor(600, "castle", castle, async (ctx) => {
@@ -39,7 +39,9 @@ export const forest = createStaticRoom<ExampleCtx>(() => {
     ctx.avatar.set(ctx.isFox ? foxAvatarSideview : avatarSideview);
     const hasInventory = ctx.playerInventory.getItems().length > 0;
     ctx.layout.set(hasInventory ? sideview : sideviewBeforeInventory);
-    ctx.log.write("you are in Foxkey Forest");
+    ctx.log.writeHTML(() => (
+      <span style={{ "font-size": "14px" }}>you are in Foxkey Forest</span>
+    ));
   };
 
   return {

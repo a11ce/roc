@@ -1,5 +1,5 @@
 import { createStore } from "solid-js/store";
-import { type JSX } from "solid-js";
+import { type JSX, type Component } from "solid-js";
 import { createSignal } from "solid-js";
 import { type InputHandler, type KeyBind } from "./input";
 
@@ -10,11 +10,11 @@ interface PendingChoice {
 
 export interface Log {
   write(text: string): void;
-  writeHTML(element: JSX.Element): void;
+  writeHTML(element: () => JSX.Element): void;
   showButtons(...options: string[]): Promise<string>;
   clear(): void;
   attachInputHandler(input: InputHandler): void;
-  getMessages(): JSX.Element[];
+  getMessages(): Component[];
   getPendingChoice(): PendingChoice | null;
   onButtonClick(choice: string): void;
   getHighlightedOption(): number | null;
@@ -28,7 +28,7 @@ export function createLog(): Log {
   );
 
   const [store, setStore] = createStore<{
-    messages: JSX.Element[];
+    messages: Component[];
     pendingChoice: PendingChoice | null;
   }>({
     messages: [],
@@ -39,12 +39,13 @@ export function createLog(): Log {
     inputHandler = input;
   };
 
-  const writeHTML = (element: JSX.Element) => {
+  const writeHTML = (element: () => JSX.Element) => {
     setStore("messages", (messages) => [...messages, element]);
   };
 
   const write = (text: string) => {
-    setStore("messages", (messages) => [...messages, <>{text}</>]);
+    const MessageComponent: Component = () => <>{text}</>;
+    setStore("messages", (messages) => [...messages, MessageComponent]);
   };
 
   const clearkeyBinds = () => {
