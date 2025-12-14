@@ -69,7 +69,12 @@ const SideviewRoom: Component = () => {
         cameraX = Math.max(0, Math.min(cameraX, sideviewGfx.width - width));
       }
 
-      scene.x = -cameraX;
+      // Center small rooms
+      let sceneOffset = -cameraX;
+      if (sideviewGfx && sideviewGfx.width < width) {
+        sceneOffset = (width - sideviewGfx.width) / 2;
+      }
+      scene.x = sceneOffset;
 
       const roomWidth = sideviewGfx?.width ?? width;
       groundLine.clear();

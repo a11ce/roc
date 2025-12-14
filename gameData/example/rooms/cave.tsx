@@ -37,5 +37,6 @@ export const cave = createResetRoom<ExampleCtx>(() => {
     objects: [door, ...gemObjects],
     onEnter,
     onLeave,
+    sideviewGfx: { width: 600 },
   };
 });
