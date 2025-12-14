@@ -24,11 +24,11 @@ const TopviewRoom: Component = () => {
 
     containerRef.appendChild(pixiApp.canvas);
 
-    const scene = new Container();
-    pixiApp.stage.addChild(scene);
-
     const staticScene = new Container();
     pixiApp.stage.addChild(staticScene);
+
+    const scene = new Container();
+    pixiApp.stage.addChild(scene);
 
     const containerCache = new Map<GameObject<GameCtx>, Container>();
     const staticContainerCache = new Map<GameObject<GameCtx>, Container>();

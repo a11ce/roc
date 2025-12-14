@@ -1,17 +1,17 @@
 interface Task {
-  onTick: () => boolean;
+  onTick: () => boolean | void;
   resolve: () => void;
 }
 
 export interface TaskController {
-  runTask(onTick: () => boolean): Promise<void>;
+  runTask(onTick: () => boolean | void): Promise<void>;
   update(): void;
 }
 
 export function createTaskController(): TaskController {
   const tasks: Task[] = [];
 
-  const runTask = (onTick: () => boolean): Promise<void> => {
+  const runTask = (onTick: () => boolean | void): Promise<void> => {
     return new Promise((resolve) => {
       tasks.push({
         onTick,

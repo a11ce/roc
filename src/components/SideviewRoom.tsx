@@ -24,11 +24,11 @@ const SideviewRoom: Component = () => {
 
     containerRef.appendChild(pixiApp.canvas);
 
-    const scene = new Container();
-    pixiApp.stage.addChild(scene);
-
     const staticScene = new Container();
     pixiApp.stage.addChild(staticScene);
+
+    const scene = new Container();
+    pixiApp.stage.addChild(scene);
 
     const groundLine = new Graphics();
     scene.addChild(groundLine);
