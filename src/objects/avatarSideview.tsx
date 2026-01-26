@@ -3,7 +3,7 @@ import { type GameObject } from "@roc/core/gameObject";
 import { type GameCtx } from "@roc/core/game";
 import { Sprite } from "@roc/core/sprite";
 
-const INTERACT_RANGE = 50;
+const INTERACT_RANGE = 100;
 
 export function createAvatarSideview(speed = 2): Avatar<GameCtx> {
   const objectsInRange = new Set<object>();
