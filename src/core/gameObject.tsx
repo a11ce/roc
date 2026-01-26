@@ -1,7 +1,6 @@
 import { type Sprite } from "./sprite";
 
 export interface GameObject<TCtx> {
-  getAssetPaths?(): string[];
   getX?(ctx: TCtx): number;
   getY?(ctx: TCtx): number;
   getDisplayName?(ctx: TCtx): string;

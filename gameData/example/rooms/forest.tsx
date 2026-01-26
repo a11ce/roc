@@ -8,12 +8,10 @@ import { castle } from "./castle";
 import { cave } from "./cave";
 import type { ExampleCtx } from "../game";
 import { createSun } from "../objects/sun";
-import { createDomino, createSkyDomino } from "../objects/domino";
+import { createDomino } from "../objects/domino";
 
 export const forest = createStaticRoom<ExampleCtx>(() => {
   const domino = createDomino(0);
-
-  const skyDomino = createSkyDomino(100, 100);
 
   const sign = createLatchText(300, () => (
     <>
@@ -54,7 +52,7 @@ export const forest = createStaticRoom<ExampleCtx>(() => {
 
   return {
     avatarPosition: { x: 100, y: 0 },
-    objects: [domino, skyDomino, sign, caveDoor, fox, castleDoor, sun],
+    objects: [domino, sign, caveDoor, fox, castleDoor, sun],
     onEnter,
     sideviewGfx: { width: 2000, scrollDeadzone: 50 },
   };

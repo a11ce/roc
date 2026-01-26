@@ -6,13 +6,14 @@ import { createAvatarController } from "@roc/core/avatar";
 import { createTaskController } from "@roc/core/task";
 import { createColorController } from "@roc/core/colors";
 import { createAudioController } from "@roc/core/audio";
+import { loadAssets } from "@roc/core/assets";
 import { createInventory } from "./inventory";
 import { avatarSideview } from "./avatars";
 import { forest } from "./rooms/forest";
 import { sideviewBeforeInventory } from "./layouts";
 import type { ExampleCtx } from "./game";
 
-export function initializeExample(): ExampleCtx {
+export async function initializeExample(): Promise<ExampleCtx> {
   const log = createLog();
   const input = createInputHandler();
   const layout = createLayoutController();
@@ -49,6 +50,8 @@ export function initializeExample(): ExampleCtx {
   ctx.audio.init(ctx);
 
   ctx.layout.set(sideviewBeforeInventory);
+
+  await loadAssets(ctx.gameName);
 
   ctx.room.goTo(forest);
 

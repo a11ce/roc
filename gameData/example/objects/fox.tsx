@@ -10,8 +10,6 @@ export function createFox(startX: number): GameObject<ExampleCtx> {
   let hasMoved = false;
   let hasBeenPet = false;
 
-  const getAssetPaths = () => ["fox.png"];
-
   const getX = () => x;
 
   const getDisplayName = () => "fox";
@@ -62,7 +60,6 @@ export function createFox(startX: number): GameObject<ExampleCtx> {
   };
 
   return {
-    getAssetPaths,
     getX,
     getDisplayName,
     getSprite,

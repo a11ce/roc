@@ -36,7 +36,6 @@ GameObjects can have the following methods. All methods are optional. Different 
 - `getX(ctx): number`. Returns the x-coordinate of the object.
 - `getY(ctx): number`. Returns the y-coordinate of the object.
 - `getDisplayName(ctx): string`. Returns the name of the object.
-- `getAssetPaths(): string[]`. Paths for all image assets used by the object must be provided.
 - `getSprite(ctx): Sprite`.
 - `onEnterInteractRange(ctx): Promise<void>`. Called by the avatar when the player moves within interaction range.
 - `onLeaveInteractRange(ctx): Promise<void>`. Called by the avatar when the player leaves interaction range.
@@ -93,7 +92,7 @@ Represents the global game log. Components can display this in different ways. M
 
 ### `ctx.room`
 
-- `get(): RoomData`
+- `get(): RoomData`. Returns `undefined` before `goTo` is first called.
 - `goTo(room: Room): void`
 
 ### `ctx.avatar`
@@ -127,7 +126,7 @@ Represents the global game log. Components can display this in different ways. M
 
 ### `ctx.audio`
 
-Use mp3 (best) or wav (fine). You do *not* need to include audio file paths in `getAssetPaths`.
+Use mp3 (best) or wav (fine).
 
 - `play(path: string, volume?: number): Promise<void>`. Plays a sound file once. Use `await` to wait for the sound to finish.
 - `startLoop(path: string, volume?: number): SoundLoop`. Starts looping a sound file. Returns a `SoundLoop` object with `.stop()`.

@@ -3,8 +3,6 @@ import { Sprite } from "@roc/core/sprite";
 import type { ExampleCtx } from "../game";
 
 export function createDomino(startX: number): GameObject<ExampleCtx> {
-  const getAssetPaths = () => ["dominoWide.png"];
-
   const getX = () => startX;
 
   const getDisplayName = () => "domino";
@@ -14,7 +12,6 @@ export function createDomino(startX: number): GameObject<ExampleCtx> {
   };
 
   return {
-    getAssetPaths,
     getX,
     getDisplayName,
     getSprite,
@@ -22,8 +19,6 @@ export function createDomino(startX: number): GameObject<ExampleCtx> {
 }
 
 export function createSkyDomino(x: number, y: number): GameObject<ExampleCtx> {
-  const getAssetPaths = () => ["dominoTall.png"];
-
   const getX = () => x;
 
   const getY = () => y;
@@ -35,7 +30,6 @@ export function createSkyDomino(x: number, y: number): GameObject<ExampleCtx> {
   };
 
   return {
-    getAssetPaths,
     getX,
     getY,
     getDisplayName,

@@ -3,13 +3,16 @@ import { getGameCtx } from "@roc/core/game";
 
 const Debug: Component = () => {
   const ctx = getGameCtx();
-  const objects = () => ctx.room.get().objects;
+  const objects = () => ctx.room.get()?.objects ?? [];
   const [playerX, setPlayerX] = createSignal(0);
   const [darkColor, setDarkColor] = createSignal("#222323");
   const [lightColor, setLightColor] = createSignal("#f0f6f0");
 
   const interval = setInterval(() => {
-    setPlayerX(ctx.room.get().avatarPosition.x);
+    const room = ctx.room.get();
+    if (room) {
+      setPlayerX(room.avatarPosition.x);
+    }
   }, 16);
 
   onCleanup(() => clearInterval(interval));

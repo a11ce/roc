@@ -1,9 +1,7 @@
-import { Assets } from "pixi.js";
 import { createSignal } from "solid-js";
 import { type GameObject } from "./gameObject";
 import { type GameCtx } from "./game";
 import { type AvatarPosition } from "./avatar";
-import { resolveAssetPath } from "@roc/util/common";
 
 export interface SideviewGfxConfig {
   width: number;
@@ -47,19 +45,6 @@ export const createRoomController = <TCtx extends GameCtx>(
   };
 
   return { get, goTo };
-};
-
-export const loadRoomAssets = async <TCtx extends GameCtx>(ctx: TCtx) => {
-  const allObjects = [ctx.avatar.get(), ...ctx.room.get().objects];
-
-  for (const obj of allObjects) {
-    if (obj.getAssetPaths) {
-      const paths = obj
-        .getAssetPaths()
-        .map((path) => resolveAssetPath(path, ctx.gameName));
-      await Assets.load(paths);
-    }
-  }
 };
 
 export const createStaticRoom = <TCtx extends GameCtx>(

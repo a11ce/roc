@@ -1,7 +1,6 @@
 import { Component, onMount, onCleanup } from "solid-js";
 import { Application, Container, Graphics, Color } from "pixi.js";
 import { getGameCtx, type GameCtx } from "@roc/core/game";
-import { loadRoomAssets } from "@roc/core/room";
 import { renderSprite } from "@roc/core/sprite";
 import { type GameObject } from "@roc/core/gameObject";
 
@@ -10,8 +9,6 @@ const SideviewRoom: Component = () => {
   let containerRef!: HTMLDivElement;
 
   onMount(async () => {
-    await loadRoomAssets(ctx);
-
     const pixiApp = new Application();
     await pixiApp.init({
       resizeTo: containerRef,
