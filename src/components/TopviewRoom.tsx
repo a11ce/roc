@@ -13,7 +13,7 @@ const TopviewRoom: Component = () => {
     await pixiApp.init({
       resizeTo: containerRef,
       backgroundColor: 0x000000,
-      resolution: window.devicePixelRatio * 2,
+      resolution: window.devicePixelRatio,
       autoDensity: true,
     });
 
@@ -87,6 +87,19 @@ const TopviewRoom: Component = () => {
           container.x = obj.getX(ctx);
           container.y = obj.getY ? obj.getY(ctx) : pixiApp.screen.height / 2;
         }
+      }
+
+      // Ensure avatar is always rendered on top
+      const avatarContainer = containerCache.get(ctx.avatar.get());
+      if (avatarContainer) {
+        scene.setChildIndex(avatarContainer, scene.children.length - 1);
+      }
+      const avatarStaticContainer = staticContainerCache.get(ctx.avatar.get());
+      if (avatarStaticContainer) {
+        staticScene.setChildIndex(
+          avatarStaticContainer,
+          staticScene.children.length - 1,
+        );
       }
     });
 
