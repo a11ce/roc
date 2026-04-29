@@ -24,17 +24,22 @@ export function createFoxButton(x: number, y?: number): GameObject<ExampleCtx> {
       ctx.log.write("you are already a fox!");
     } else {
       ctx.log.write("press the button to turn into a fox?");
-      if ((await ctx.log.showButtons("yes", "no")) === "yes") {
-        ctx.log.write("you transform into a fox!");
-        ctx.isFox = true;
+      await ctx.log.showButtonsThen({
+        yes: () => {
+          ctx.log.write("you transform into a fox!");
+          ctx.isFox = true;
 
-        const current = ctx.avatar.get();
-        if (current === avatarSideview) {
-          ctx.avatar.set(foxAvatarSideview);
-        } else if (current === avatarTopview) {
-          ctx.avatar.set(foxAvatarTopview);
-        }
-      }
+          const current = ctx.avatar.get();
+          if (current === avatarSideview) {
+            ctx.avatar.set(foxAvatarSideview);
+          } else if (current === avatarTopview) {
+            ctx.avatar.set(foxAvatarTopview);
+          }
+        },
+        no: () => {
+          ctx.log.write("you do not press the button");
+        },
+      });
     }
   };
 

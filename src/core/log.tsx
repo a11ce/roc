@@ -12,6 +12,9 @@ export interface Log {
   write(text: string): void;
   writeHTML(element: () => JSX.Element): void;
   showButtons(...options: string[]): Promise<string>;
+  showButtonsThen(buttonActions: {
+    [label: string]: () => void | Promise<void>;
+  }): Promise<void>;
   clear(): void;
   attachInputHandler(input: InputHandler): void;
   getMessages(): Component[];
@@ -104,6 +107,13 @@ export function createLog(): Log {
     });
   };
 
+  const showButtonsThen = async (buttonActions: {
+    [label: string]: () => void | Promise<void>;
+  }): Promise<void> => {
+    const choice = await showButtons(...Object.keys(buttonActions));
+    await buttonActions[choice]();
+  };
+
   const clear = () => {
     setStore("messages", []);
   };
@@ -122,6 +132,7 @@ export function createLog(): Log {
     write,
     writeHTML,
     showButtons,
+    showButtonsThen,
     clear,
     attachInputHandler,
     getMessages: () => store.messages,

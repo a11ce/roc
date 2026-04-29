@@ -87,6 +87,7 @@ Represents the global game log. Components can display this in different ways. M
 - `write(text: string): void`. Writes text to the log.
 - `writeHTML(element: () => JSX.Element): void`. Writes a JSX element to the log. Requires a function that returns the JSX element.
 - `showButtons(...options: string[]): Promise<string>`. Shows mutually exclusive buttons to the player and returns the selected option. While buttons are shown, player input is locked and navigation/selection keys are bound to button navigation/selection.
+- `showButtonsThen(buttonActions: { [label: string]: () => void | Promise<void> }): Promise<void>`. Like `showButtons`, except that it takes an object mapping button labels to callbacks. When a button is clicked, its callback is executed.
 - `clear(): void`
 - `getMessages(): Component[]`
 
