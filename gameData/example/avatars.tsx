@@ -12,6 +12,6 @@ export const foxAvatarSideview = {
 };
 
 export const foxAvatarTopview = {
-  ...createAvatarTopview(6),
+  ...createAvatarTopview(),
   getSprite: () => Sprite.fromFile("fox.png", 5),
 };

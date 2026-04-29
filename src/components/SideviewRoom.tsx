@@ -63,7 +63,11 @@ const SideviewRoom: Component = () => {
           cameraX = playerX - maxPlayerScreenX;
         }
 
-        cameraX = Math.max(0, Math.min(cameraX, sideviewGfx.width - width));
+        const overscrollPixels = ((sideviewGfx.overscroll ?? 0) / 100) * width;
+        cameraX = Math.max(
+          -overscrollPixels,
+          Math.min(cameraX, sideviewGfx.width - width + overscrollPixels),
+        );
       }
 
       // Center small rooms

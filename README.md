@@ -23,9 +23,12 @@ Rooms are defined using `createStaticRoom` or `createResetRoom` with a function 
 - `objects: GameObject[]`. The objects present in the room.
 - `onEnter(ctx): void`. Called when the player enters the room. Optional.
 - `onLeave(ctx): void`. Called when the player leaves the room. Optional.
-- `sideviewGfx: { width: number, scrollDeadzone?: number }`. Graphics configuration for sideview rooms. Optional.
+- `sideviewGfx: { width: number, scrollDeadzone?: number, overscroll?: number, avatarScale?: number, interactRange?: number }`. Graphics configuration for sideview rooms. Optional.
   - `width`: The room width.
   - `scrollDeadzone`: Percentage (0-100) of view width for centered deadzone. Defaults to 50.
+  - `overscroll`: Percentage (0-100) of view width for the camera to scroll past the edge of the room. Defaults to 0.
+  - `avatarScale`: Scale for the avatar sprite and default movement speed. Defaults to 1.
+  - `interactRange`: Object interaction range. Defaults to 100.
 
 ### GameObjects
 

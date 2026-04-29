@@ -6,6 +6,9 @@ import { type AvatarPosition } from "./avatar";
 export interface SideviewGfxConfig {
   width: number;
   scrollDeadzone?: number;
+  overscroll?: number;
+  avatarScale?: number;
+  interactRange?: number;
 }
 
 export interface RoomData<TCtx extends GameCtx> {

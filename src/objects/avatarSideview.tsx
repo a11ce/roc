@@ -3,10 +3,14 @@ import { type GameObject } from "@roc/core/gameObject";
 import { type GameCtx } from "@roc/core/game";
 import { Sprite } from "@roc/core/sprite";
 
-const INTERACT_RANGE = 100;
+const DEFAULT_INTERACT_RANGE = 100;
+const BASE_SPEED = 2.5;
 
-export function createAvatarSideview(speed = 2): Avatar<GameCtx> {
+export function createAvatarSideview(speedOverride?: number): Avatar<GameCtx> {
   const objectsInRange = new Set<object>();
+
+  const interactRange = (ctx: GameCtx) =>
+    ctx.room.get().sideviewGfx?.interactRange ?? DEFAULT_INTERACT_RANGE;
 
   const distance = (ctx: GameCtx, obj: GameObject<GameCtx>) =>
     obj.getX
@@ -17,13 +21,14 @@ export function createAvatarSideview(speed = 2): Avatar<GameCtx> {
 
   const getDisplayName = () => "@";
 
-  const getSprite = (_ctx: GameCtx) => {
-    return Sprite.circle(30, "@");
+  const getSprite = (ctx: GameCtx) => {
+    const scale = ctx.room.get().sideviewGfx?.avatarScale ?? 1;
+    return Sprite.circle(30, "@", scale);
   };
 
   const onPlayerMove = async (ctx: GameCtx) => {
     for (const obj of ctx.room.get().objects) {
-      const inInteractRange = distance(ctx, obj) < INTERACT_RANGE;
+      const inInteractRange = distance(ctx, obj) < interactRange(ctx);
       const wasInRange = objectsInRange.has(obj);
 
       if (inInteractRange === wasInRange) continue;
@@ -44,6 +49,8 @@ export function createAvatarSideview(speed = 2): Avatar<GameCtx> {
 
   const processInput = (ctx: GameCtx, position: AvatarPosition) => {
     let newPosition = { ...position };
+    const scale = ctx.room.get().sideviewGfx?.avatarScale ?? 1;
+    const speed = speedOverride ?? BASE_SPEED * scale;
 
     if (ctx.input.isKeyPressed("a") || ctx.input.isKeyPressed("ArrowLeft")) {
       newPosition.x -= speed;
@@ -56,7 +63,9 @@ export function createAvatarSideview(speed = 2): Avatar<GameCtx> {
     if (ctx.input.consumeKeyPress(" ")) {
       const inRange = ctx.room
         .get()
-        .objects.filter((obj) => distance(ctx, obj) < INTERACT_RANGE);
+        .objects.filter(
+          (obj) => distance(ctx, obj) < interactRange(ctx) && obj.onInteract,
+        );
 
       const closest = inRange.reduce<GameObject<GameCtx> | null>(
         (acc, obj) =>
@@ -64,8 +73,8 @@ export function createAvatarSideview(speed = 2): Avatar<GameCtx> {
         null,
       );
 
-      if (closest?.onInteract) {
-        closest.onInteract(ctx);
+      if (closest) {
+        closest.onInteract!(ctx);
       }
     }
 
