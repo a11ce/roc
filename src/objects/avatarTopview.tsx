@@ -70,7 +70,9 @@ export function createAvatarTopview(speed = 2): Avatar<GameCtx> {
     if (ctx.input.consumeKeyPress(" ")) {
       const inRange = ctx.room
         .get()
-        .objects.filter((obj) => distance(ctx, obj) < INTERACT_RANGE);
+        .objects.filter(
+          (obj) => distance(ctx, obj) < INTERACT_RANGE && obj.onInteract,
+        );
 
       const closest = inRange.reduce<GameObject<GameCtx> | null>(
         (acc, obj) =>
@@ -78,8 +80,8 @@ export function createAvatarTopview(speed = 2): Avatar<GameCtx> {
         null,
       );
 
-      if (closest?.onInteract) {
-        closest.onInteract(ctx);
+      if (closest) {
+        closest.onInteract!(ctx);
       }
     }
 
